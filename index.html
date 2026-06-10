@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="scroll-smooth">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,6 +62,15 @@
         .animate-float {
             animation: float 4s ease-in-out infinite;
         }
+
+        /* 頁面切換淡入動畫 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-brand-light text-gray-800">
@@ -70,17 +79,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo 區塊 -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    <!-- 使用提供的圖片檔名 -->
-                    <img class="h-16 w-auto object-contain" src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" alt="VITA CORE Logo" onerror="this.onerror=null; this.src='https://placehold.co/200x80/f8fafc/1a2b3c?text=VITA+CORE';">
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <a href="#about">
+                        <!-- 使用提供的圖片檔名 -->
+                        <img class="h-16 w-auto object-contain" src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" alt="VITA CORE Logo" onerror="this.onerror=null; this.src='https://placehold.co/200x80/f8fafc/1a2b3c?text=VITA+CORE';">
+                    </a>
                 </div>
                 
                 <!-- 桌面版選單 -->
                 <nav class="hidden md:flex space-x-8">
-                    <a href="#about" class="text-gray-600 hover:text-brand-teal font-medium transition-colors">關於我們</a>
-                    <a href="#core-values" class="text-gray-600 hover:text-brand-teal font-medium transition-colors">核心價值</a>
-                    <a href="#services" class="text-gray-600 hover:text-brand-teal font-medium transition-colors">服務項目</a>
-                    <a href="#testimonials" class="text-gray-600 hover:text-brand-teal font-medium transition-colors">客戶故事</a>
+                    <a href="#about" class="nav-link text-brand-teal font-bold transition-colors">關於我們</a>
+                    <a href="#core-values" class="nav-link text-gray-600 hover:text-brand-teal font-medium transition-colors">核心價值</a>
+                    <a href="#services" class="nav-link text-gray-600 hover:text-brand-teal font-medium transition-colors">服務項目</a>
+                    <a href="#testimonials" class="nav-link text-gray-600 hover:text-brand-teal font-medium transition-colors">客戶服務</a>
                 </nav>
 
                 <!-- 行動呼籲按鈕 -->
@@ -104,17 +115,17 @@
         <!-- 手機版選單內容 (預設隱藏) -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-teal hover:bg-gray-50">關於我們</a>
-                <a href="#core-values" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-teal hover:bg-gray-50">核心價值</a>
-                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-teal hover:bg-gray-50">服務項目</a>
-                <a href="#testimonials" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-teal hover:bg-gray-50">客戶故事</a>
+                <a href="#about" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-bold text-brand-teal bg-gray-50 hover:text-brand-teal hover:bg-gray-50">關於我們</a>
+                <a href="#core-values" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-teal hover:bg-gray-50">核心價值</a>
+                <a href="#services" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-teal hover:bg-gray-50">服務項目</a>
+                <a href="#testimonials" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand-teal hover:bg-gray-50">客戶服務</a>
                 <a href="#cta" class="block mt-4 text-center bg-brand-teal text-white px-3 py-2 rounded-md font-bold">開始體驗</a>
             </div>
         </div>
     </header>
 
     <main class="pt-20">
-        <section id="about" class="relative overflow-hidden bg-white">
+        <section id="about" class="page-section relative overflow-hidden bg-white">
             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIyIiBmaWxsPSIjZjFmNWY5Ii8+Cjwvc3ZnPg==')] opacity-50"></div>
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 relative z-10">
@@ -145,7 +156,7 @@
             </div>
         </section>
 
-        <section id="core-values" class="py-20 bg-gray-50">
+        <section id="core-values" class="page-section hidden py-20 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -191,7 +202,7 @@
             </div>
         </section>
 
-        <section id="services" class="py-20 bg-white">
+        <section id="services" class="page-section hidden py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -264,7 +275,7 @@
             </div>
         </section>
 
-        <section id="testimonials" class="py-20 bg-brand-dark text-white relative overflow-hidden">
+        <section id="testimonials" class="page-section hidden py-20 bg-brand-dark text-white relative overflow-hidden">
             <!-- 裝飾背景 -->
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-brand-blue opacity-20 blur-3xl"></div>
             <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-brand-teal opacity-20 blur-3xl"></div>
@@ -272,9 +283,9 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl font-extrabold sm:text-4xl">
-                        客戶故事
+                        客戶服務
                     </h2>
-                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">聽聽那些已經在 VITA CORE 完成蛻變的學員們怎麼說。</p>
+                    <p class="mt-4 text-gray-300 max-w-2xl mx-auto">聽聽那些已經在 VITA CORE 完成蛻變的學員們怎麼說，以及我們為您提供的專屬服務。</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -285,7 +296,7 @@
                                 王
                             </div>
                             <div>
-                                <h4 class="text-lg font-bold">王小姐 (王＊)</h4>
+                                <h4 class="text-lg font-bold">王小姐 (王薇)</h4>
                                 <p class="text-brand-teal text-sm">企業經理</p>
                             </div>
                         </div>
@@ -304,7 +315,7 @@
                                 李
                             </div>
                             <div>
-                                <h4 class="text-lg font-bold">李先生 (李＊)</h4>
+                                <h4 class="text-lg font-bold">李先生 (李智)</h4>
                                 <p class="text-brand-teal text-sm">軟體工程師</p>
                             </div>
                         </div>
@@ -383,7 +394,7 @@
                         <li><a href="#about" class="hover:text-brand-teal transition-colors">關於我們</a></li>
                         <li><a href="#core-values" class="hover:text-brand-teal transition-colors">核心價值</a></li>
                         <li><a href="#services" class="hover:text-brand-teal transition-colors">服務項目</a></li>
-                        <li><a href="#testimonials" class="hover:text-brand-teal transition-colors">客戶故事</a></li>
+                        <li><a href="#testimonials" class="hover:text-brand-teal transition-colors">客戶服務</a></li>
                     </ul>
                 </div>
 
@@ -412,6 +423,64 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- 新增：單頁面應用 (SPA) 路由邏輯 ---
+            function handleRoute() {
+                // 獲取當前 hash，預設為 '#about'
+                let hash = window.location.hash || '#about';
+                
+                // 定義主要的子網頁 section
+                const pages = document.querySelectorAll('.page-section');
+                let pageFound = false;
+
+                // 切換頁面顯示狀態
+                pages.forEach(page => {
+                    if ('#' + page.id === hash) {
+                        page.classList.remove('hidden');
+                        page.classList.add('animate-fadeIn'); // 套用淡入動畫
+                        pageFound = true;
+                    } else {
+                        page.classList.add('hidden');
+                        page.classList.remove('animate-fadeIn');
+                    }
+                });
+
+                // 如果 hash 無效，強制導回首頁
+                if (!pageFound && pages.length > 0) {
+                    pages[0].classList.remove('hidden');
+                    hash = '#' + pages[0].id;
+                }
+
+                // 更新桌面版導航列的 active 狀態
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('text-brand-teal', 'font-bold');
+                        link.classList.remove('text-gray-600', 'font-medium');
+                    } else {
+                        link.classList.remove('text-brand-teal', 'font-bold');
+                        link.classList.add('text-gray-600', 'font-medium');
+                    }
+                });
+
+                // 更新手機版導航列的 active 狀態
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('text-brand-teal', 'font-bold', 'bg-gray-50');
+                        link.classList.remove('text-gray-700', 'font-medium');
+                    } else {
+                        link.classList.remove('text-brand-teal', 'font-bold', 'bg-gray-50');
+                        link.classList.add('text-gray-700', 'font-medium');
+                    }
+                });
+
+                // 切換網頁後自動滾動到最上方
+                window.scrollTo({top: 0, behavior: 'instant'});
+            }
+
+            // 監聽 URL hash 變化 (當使用者點擊選單)
+            window.addEventListener('hashchange', handleRoute);
+            // 初始化執行一次
+            handleRoute();
+
             // 1. 手機版選單切換
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
