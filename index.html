@@ -88,7 +88,7 @@
                 <a href="#dashboard" class="nav-link hover:text-black transition">儀表板</a>
                 <a href="#services" class="nav-link hover:text-black transition">運動選項</a>
                 <a href="#compare" class="nav-link hover:text-black transition">比較方案</a>
-                <a href="#" id="nav-chat-trigger" class="nav-link hover:text-black transition">客戶服務</a>
+                <a href="#testimonials" class="nav-link hover:text-black transition">客戶服務</a>
                 <a href="#ai-consultant" class="nav-link hover:text-brand-appleBlue transition flex items-center gap-1">AI 顧問 ✨</a>
                 <a href="admin.html" target="_blank" class="text-gray-400 hover:text-black transition flex items-center gap-1 ml-4" title="管理員登入">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -113,7 +113,7 @@
         <a href="#dashboard" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">健康儀表板</a>
         <a href="#services" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">運動選項</a>
         <a href="#compare" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">比較方案</a>
-        <a href="#" id="mobile-chat-trigger" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">客戶服務</a>
+        <a href="#testimonials" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">客戶服務</a>
         <a href="#ai-consultant" class="mobile-nav-link block py-3 text-lg font-bold text-brand-appleBlue">體驗 AI 顧問 ✨</a>
     </div>
 
@@ -399,7 +399,7 @@
 
         <!-- 客戶評價 -->
         <section id="testimonials" class="page-section hidden py-24 bg-brand-appleGray overflow-hidden">
-            <div class="text-center mb-12"><h2 class="text-4xl font-semibold tracking-tighter">真實故事。</h2></div>
+            <div class="text-center mb-12"><h2 class="text-4xl font-semibold tracking-tighter">客戶服務與真實回饋。</h2></div>
             <div class="relative w-full py-8">
                 <div class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-brand-appleGray to-transparent z-10"></div>
                 <div class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-brand-appleGray to-transparent z-10"></div>
@@ -709,23 +709,6 @@
             const chatPanel = document.getElementById('chat-widget-panel');
             document.getElementById('chat-toggle-btn')?.addEventListener('click', () => { chatPanel.classList.toggle('hidden'); chatPanel.classList.toggle('flex'); });
             document.getElementById('close-chat-btn')?.addEventListener('click', () => { chatPanel.classList.add('hidden'); chatPanel.classList.remove('flex'); });
-
-            // 導航列 "客戶服務" 點擊事件
-            document.getElementById('nav-chat-trigger')?.addEventListener('click', (e) => {
-                e.preventDefault();
-                chatPanel.classList.remove('hidden');
-                chatPanel.classList.add('flex');
-            });
-            
-            document.getElementById('mobile-chat-trigger')?.addEventListener('click', (e) => {
-                e.preventDefault();
-                chatPanel.classList.remove('hidden');
-                chatPanel.classList.add('flex');
-                // 同時收起手機選單
-                const mobileMenu = document.getElementById('mobile-menu');
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
-            });
 
             // 頁面切換邏輯 (SPA 模擬)
             function handleRoute() {
