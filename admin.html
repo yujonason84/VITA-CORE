@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITA CORE | 管理員後臺</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen text-gray-800">
+
+    <!-- 登入介面 -->
+    <div id="admin-login-view" class="max-w-md mx-auto mt-24 bg-white p-10 rounded-3xl shadow-sm border border-gray-100 text-center relative z-10">
+        <div class="mb-6">
+            <span class="text-4xl">🔒</span>
+            <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-900">管理員登入</h2>
+            <p class="mt-2 text-sm text-gray-500">登入系統以回覆訪客即時提問</p>
+        </div>
+        <form id="admin-login-form" class="space-y-4 text-left">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">帳號</label>
+                <input type="text" id="admin-username" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#028090]" required placeholder="請輸入帳號">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">密碼</label>
+                <input type="password" id="admin-password" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#028090]" required placeholder="請輸入密碼">
+            </div>
+            <div id="login-error" class="hidden text-red-500 text-sm text-center bg-red-50 p-2 rounded-lg mt-2">帳號或密碼錯誤。</div>
+            <button type="submit" class="w-full bg-[#028090] hover:bg-[#0b4f4f] text-white font-bold py-3 rounded-xl transition-colors mt-4">登入系統</button>
+        </form>
+        <div class="mt-6 text-xs text-gray-400 bg-gray-50 p-3 rounded-lg border border-gray-100 text-left">
+            <p class="font-semibold text-gray-500 mb-1">系統授權帳號：</p>
+            <p>1. admin / admin123</p>
+            <p>2. yujonason84 / En960315</p>
+        </div>
+    </div>
+
+    <!-- 後台主畫面 (登入後顯示) -->
+    <div id="admin-content-view" class="hidden max-w-5xl mx-auto px-4 py-12">
+        <header class="mb-8 border-b pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">VITA CORE 後臺控制中心</h1>
+                <p class="text-sm text-gray-500 mt-2">即時監控並回覆所有訪客提問</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-sm font-medium text-[#028090] bg-teal-50 px-4 py-2 rounded-full border border-teal-100 shadow-sm" id="logged-in-user"></span>
+                <button id="admin-logout-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-full text-sm font-semibold transition">登出</button>
+            </div>
+        </header>
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                💬 訪客客服問答 
+                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse uppercase tracking-wider">Live</span>
+            </h2>
+            <!-- 聊天列表容器 -->
+            <div id="admin-chat-list" class="space-y-6 max-h-[600px] overflow-y-auto pr-4">
+                <div class="text-center py-10">
+                    <p class="text-gray-400 text-sm">正在同步 Firebase 資料庫連線...</p>
+                    <p class="text-xs text-gray-300 mt-2">（如果您是在本地端開啟，請確認有透過 Local Server 執行）</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase 邏輯 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // ==========================================
+        // ⚠️ 非常重要：若您要部署到自己的網站，請替換此處的 Firebase Config！
+        // ==========================================
+        let firebaseConfig = {};
+        let appId = 'default-app-id';
+
+        // 嘗試抓取環境變數 (針對在目前 Canvas 預覽環境的相容性)
+        try {
+            if (typeof __firebase_config !== 'undefined') {
+                firebaseConfig = JSON.parse(__firebase_config);
+            }
+            if (typeof __app_id !== 'undefined') {
+                appId = __app_id;
+            }
+        } catch(e) {
+            console.warn("無法取得環境變數，若這不是在 Canvas 內，請在上方填寫您的真實 Firebase Config。");
+        }
+
+        let app, db, auth, currentUser;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+        } catch(e) { console.error("Firebase 初始化失敗:", e); }
+
+        const initAuth = async () => {
+            if(!auth) return;
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) { console.error("管理員後台 Auth 失敗:", err); }
+        };
+
+        // -------------------------
+        // UI 與登入邏輯
+        // -------------------------
+        const loginView = document.getElementById('admin-login-view');
+        const contentView = document.getElementById('admin-content-view');
+        
+        function checkAdminAuth() {
+            const currentAdmin = sessionStorage.getItem('adminAuthUser');
+            if (currentAdmin) {
+                loginView.classList.add('hidden');
+                contentView.classList.remove('hidden');
+                document.getElementById('logged-in-user').textContent = `👤 專員：${currentAdmin}`;
+            } else {
+                loginView.classList.remove('hidden');
+                contentView.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('admin-login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('admin-username').value;
+            const pass = document.getElementById('admin-password').value;
+            
+            // 驗證帳號密碼
+            if ((user === 'admin' && pass === 'admin123') || 
+                (user === 'yujonason84' && pass === 'En960315')) {
+                
+                sessionStorage.setItem('adminAuthUser', user);
+                document.getElementById('login-error').classList.add('hidden');
+                checkAdminAuth();
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('admin-logout-btn').addEventListener('click', () => {
+            sessionStorage.removeItem('adminAuthUser');
+            document.getElementById('admin-username').value = '';
+            document.getElementById('admin-password').value = '';
+            checkAdminAuth();
+        });
+
+        // 執行初始檢查
+        checkAdminAuth();
+
+        // -------------------------
+        // Firebase 聊天回覆邏輯
+        // -------------------------
+        window.adminReply = async (docId) => {
+            const input = document.getElementById(`reply-${docId}`);
+            if(input && input.value.trim() && currentUser && db) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'chat', docId), {
+                        reply: input.value.trim(),
+                        repliedAt: new Date().toISOString()
+                    }, {merge: true});
+                    input.value = ''; // 清空輸入框
+                } catch (err) {
+                    console.error("回覆送出失敗", err);
+                    alert("回覆送出失敗，請確認資料庫連線。");
+                }
+            } else {
+                alert("連線尚未建立，請稍後再試。");
+            }
+        };
+
+        // 開始監聽資料庫
+        function startAdminListeners() {
+            if(!db || !currentUser) return;
+            
+            const adminList = document.getElementById('admin-chat-list');
+            
+            // 讀取 public > data > chat 集合下的所有訊息
+            onSnapshot(query(collection(db, 'artifacts', appId, 'public', 'data', 'chat')), (snap) => {
+                const msgs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => b.timestamp - a.timestamp); // 根據時間排序，新的在上面
+                
+                if (msgs.length === 0) {
+                    adminList.innerHTML = '<div class="text-center py-10"><p class="text-gray-400">目前沒有任何客戶訊息。</p></div>';
+                    return;
+                }
+
+                // 將訊息依據訪客 ID (vid) 進行群組化
+                const grouped = msgs.reduce((acc, m) => { 
+                    acc[m.vid] = acc[m.vid] || []; 
+                    acc[m.vid].push(m); 
+                    return acc; 
+                }, {});
+
+                // 渲染畫面
+                adminList.innerHTML = Object.entries(grouped).map(([vid, list]) => `
+                    <div class="border border-gray-200 rounded-2xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center gap-2 border-b border-gray-100 pb-3 mb-4">
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            <h3 class="font-bold text-sm text-gray-700">訪客識別碼: <span class="font-mono text-[#028090]">${vid}</span></h3>
+                        </div>
+                        <div class="space-y-4">
+                            ${list.map(m => `
+                                <div>
+                                    <!-- 訪客訊息 -->
+                                    <div class="text-sm text-gray-800 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium break-words">
+                                        <span class="text-gray-400 mr-1">💬</span> ${m.text}
+                                    </div>
+                                    
+                                    <!-- 判斷是否有回覆 -->
+                                    ${m.reply 
+                                        ? `<!-- 已回覆狀態 -->
+                                           <div class="text-sm text-[#0b4f4f] bg-teal-50/50 p-4 rounded-xl border border-teal-100 mt-2 flex items-start gap-2 break-words">
+                                               <span>✅</span> 
+                                               <div>
+                                                   <span class="font-bold block mb-1">專員已回覆：</span>
+                                                   ${m.reply}
+                                               </div>
+                                           </div>` 
+                                        : `<!-- 未回覆狀態 (顯示輸入框) -->
+                                           <div class="flex gap-2 mt-2 ml-4 relative">
+                                                <div class="absolute -left-3 top-1/2 -translate-y-1/2 w-2 h-[1px] bg-gray-300"></div>
+                                                <input id="reply-${m.id}" type="text" class="border border-gray-200 flex-1 px-4 py-2.5 text-sm rounded-xl outline-none focus:ring-2 focus:ring-[#028090] bg-gray-50" placeholder="輸入回覆訊息給此訪客...">
+                                                <button onclick="adminReply('${m.id}')" class="bg-[#028090] text-white px-6 py-2.5 text-sm font-bold rounded-xl hover:bg-[#0b4f4f] transition-colors flex-shrink-0">
+                                                    送出
+                                                </button>
+                                           </div>`
+                                    }
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }, (e) => {
+                console.error("Firebase 監聽錯誤", e);
+                adminList.innerHTML = `<div class="text-center py-10"><p class="text-red-500 font-bold">資料庫連線失敗</p><p class="text-xs text-gray-500 mt-2">${e.message}</p></div>`;
+            });
+        }
+
+        // 初始化
+        if(auth) {
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if(user) {
+                    console.log("Firebase Auth 成功，開始監聽資料...");
+                    startAdminListeners();
+                }
+            });
+            initAuth();
+        }
+    </script>
+</body>
+</html>
