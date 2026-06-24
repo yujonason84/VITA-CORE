@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITA CORE | 您的極致健康顧問</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "Helvetica Neue", sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 overflow-x-hidden">
+
+    <!-- 導航列：響應式設計 -->
+    <header class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-16 flex items-center px-6">
+        <div class="max-w-6xl mx-auto w-full flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <img src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" class="w-8 h-8">
+                <span class="font-bold text-lg tracking-tight">VITA CORE</span>
+            </div>
+            
+            <!-- 電腦版選單 -->
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-gray-600">
+                <a href="#hero" class="hover:text-black transition">首頁</a>
+                <a href="#dashboard" class="hover:text-black transition">健康儀表板</a>
+                <a href="#ai-consultant" class="hover:text-black transition">AI 顧問</a>
+                <a href="admin.html" target="_blank" class="text-red-500 hover:text-red-700">🔒 後台</a>
+            </nav>
+
+            <!-- 手機版漢堡按鈕 -->
+            <button id="menu-toggle" class="md:hidden p-2 text-2xl">☰</button>
+        </div>
+    </header>
+
+    <!-- 手機版折疊選單 -->
+    <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-white border-b shadow-lg z-40 p-6 flex-col gap-4 text-center md:hidden">
+        <a href="#hero" class="block py-2 text-lg">首頁</a>
+        <a href="#dashboard" class="block py-2 text-lg">健康儀表板</a>
+        <a href="#ai-consultant" class="block py-2 text-lg">AI 顧問</a>
+        <a href="admin.html" target="_blank" class="block py-2 text-lg text-red-500">管理員後台</a>
+    </div>
+
+    <!-- 主內容區 -->
+    <main class="pt-16">
+        <!-- 主視覺區 -->
+        <section id="hero" class="min-h-[70vh] flex flex-col items-center justify-center text-center px-6 py-20">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">精準進化，<br class="md:hidden">您的健康首選。</h1>
+            <p class="text-lg md:text-xl text-gray-500 mb-10 max-w-xl">不論在任何裝置，VITA CORE 隨時與您同步，提供最強大的健康管理體驗。</p>
+            <a href="#ai-consultant" class="bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition shadow-lg">立即開始體驗</a>
+        </section>
+
+        <!-- 健康儀表板區塊 (電腦與手機自動適配) -->
+        <section id="dashboard" class="py-20 bg-gray-50 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold mb-12 text-center">專屬健康儀表板</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                        <h3 class="font-bold text-gray-400 mb-2">今日燃燒熱量</h3>
+                        <p class="text-4xl font-bold">842 kcal</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                        <h3 class="font-bold text-gray-400 mb-2">運動時間</h3>
+                        <p class="text-4xl font-bold">45 min</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                        <h3 class="font-bold text-gray-400 mb-2">心率狀態</h3>
+                        <p class="text-4xl font-bold">72 bpm</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI 顧問區塊 -->
+        <section id="ai-consultant" class="py-20 px-6">
+            <div class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100">
+                <h2 class="text-3xl font-bold mb-8 text-center">AI 健康教練</h2>
+                <div class="space-y-4">
+                    <input type="text" id="goal-input" placeholder="請輸入目標 (例如：增肌)" class="w-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="ai-submit" class="w-full bg-black text-white p-4 rounded-xl font-bold hover:bg-gray-800 transition">產生專屬計畫</button>
+                </div>
+                <div id="ai-output" class="mt-8 p-6 bg-gray-50 rounded-xl text-gray-700 min-h-[120px]">
+                    請輸入您的需求，AI 將為您即時生成專屬建議。
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 漢堡選單邏輯
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // AI 互動邏輯 (Demo 模式)
+        document.getElementById('ai-submit').addEventListener('click', async () => {
+            const out = document.getElementById('ai-output');
+            const goal = document.getElementById('goal-input').value;
+            if(!goal) { out.innerHTML = "請先輸入您的目標！"; return; }
+            out.innerHTML = "正在與 AI 雲端連線，請稍候...";
+            await new Promise(r => setTimeout(r, 1500));
+            out.innerHTML = `<strong>根據「${goal}」的建議：</strong><br><br>您的進步非常迅速！針對您的目標，建議這週嘗試提升 10% 的負重，並在訓練後加入 10 分鐘的拉伸動作。`;
+        });
+    </script>
+</body>
+</html>
