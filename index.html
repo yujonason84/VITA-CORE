@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VITA CORE | Premium Wellness & Fitness</title>
-    <!-- 引入 Tailwind CSS -->
+    <title>VITA CORE | 您的極致健康顧問</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -35,7 +34,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* 蘋果風格細膩進場動畫 */
+        /* 蘋果風格進場動畫 */
         @keyframes appleFadeUp {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -70,82 +69,58 @@
         .ai-content li { margin-bottom: 0.375rem; }
     </style>
 </head>
-<body class="bg-white text-brand-appleText font-apple">
+<body class="bg-white text-brand-appleText font-apple overflow-x-hidden">
 
-    <!-- 導航列 (已補上 LOGO) -->
-    <header class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100" id="navbar">
-        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-20">
-            <div class="flex justify-between items-center h-[52px]">
-                
-                <!-- 左側：VITA CORE Logo -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer">
-                    <a href="#hero" class="nav-trigger flex items-center gap-2 group">
-                        <img src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" 
-                             alt="VITA CORE Logo" 
-                             class="h-6 w-auto object-contain group-hover:scale-105 transition-transform">
-                        <span class="text-[13px] font-bold tracking-tight text-[#1d1d1f] hidden sm:block">VITA CORE</span>
-                    </a>
-                </div>
-                
-                <!-- 中間：文字導航選單 -->
-                <nav class="hidden md:flex flex-1 justify-center space-x-10 text-[12px] font-semibold text-gray-600">
-                    <a href="#about" class="nav-link nav-trigger hover:text-black transition-colors">關於我們</a>
-                    <a href="#dashboard" class="nav-link nav-trigger hover:text-black transition-colors">核心價值</a>
-                    <a href="#services" class="nav-link mega-trigger hover:text-black transition-colors cursor-pointer">運動選項</a>
-                    <a href="#compare" class="nav-link nav-trigger hover:text-black transition-colors">比較方案</a>
-                    <a href="#testimonials" class="nav-link nav-trigger hover:text-black transition-colors">客戶服務</a>
-                    <a href="#ai-consultant" class="nav-link nav-trigger hover:text-black transition-colors flex items-center gap-1">AI 顧問 ✨</a>
-                </nav>
+    <!-- 導航列：響應式設計 -->
+    <header class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 h-16 flex items-center px-4 sm:px-6 transition-all duration-300" id="navbar">
+        <div class="max-w-[1200px] mx-auto w-full flex justify-between items-center">
+            <!-- 左側 Logo -->
+            <a href="#hero" class="flex items-center gap-2 group cursor-pointer nav-link">
+                <img src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" 
+                     alt="VITA CORE Logo" 
+                     class="h-7 w-auto object-contain group-hover:scale-105 transition-transform">
+                <span class="text-[14px] font-bold tracking-tight text-[#1d1d1f] hidden sm:block">VITA CORE</span>
+            </a>
+            
+            <!-- 電腦版選單 -->
+            <nav class="hidden md:flex gap-8 text-[13px] font-semibold text-gray-600 items-center">
+                <a href="#about" class="nav-link hover:text-black transition">關於我們</a>
+                <a href="#dashboard" class="nav-link hover:text-black transition">儀表板</a>
+                <a href="#services" class="nav-link hover:text-black transition">運動選項</a>
+                <a href="#compare" class="nav-link hover:text-black transition">比較方案</a>
+                <a href="#ai-consultant" class="nav-link hover:text-brand-appleBlue transition flex items-center gap-1">AI 顧問 ✨</a>
+                <a href="admin.html" target="_blank" class="text-gray-400 hover:text-black transition flex items-center gap-1 ml-4" title="管理員登入">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </a>
+            </nav>
 
-                <!-- 右側：功能圖示與後台 -->
-                <div class="hidden md:flex items-center space-x-6 text-gray-600">
-                    <button class="hover:text-black transition-colors" title="搜尋">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </button>
-                    <!-- 連接至獨立後台 admin.html -->
-                    <a href="admin.html" target="_blank" class="hover:text-black transition-colors flex items-center gap-1" title="管理員登入">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    </a>
-                </div>
-                
-                <!-- 手機版選單按鈕 -->
-                <div class="md:hidden flex items-center gap-4">
-                    <a href="admin.html" target="_blank" class="text-gray-800" title="管理員登入">
-                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    </a>
-                    <button id="mobile-menu-btn" class="text-gray-800 focus:outline-none">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mega Menu (巨型選單) -->
-        <div id="mega-menu" class="absolute top-[52px] left-0 w-full overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-10 bg-white shadow-sm border-b border-gray-100" style="max-height: 0px; opacity: 0; pointer-events: none;">
-            <div class="max-w-[1024px] mx-auto px-8 md:px-16 pt-8 pb-12">
-                <div class="flex flex-wrap gap-16 md:gap-24">
-                    <div class="flex flex-col space-y-3">
-                        <h4 class="text-[11px] font-normal text-gray-500 mb-1">熱門運動</h4>
-                        <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">重量訓練</a>
-                        <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">瑜伽與皮拉提斯</a>
-                        <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">高強度間歇 (HIIT)</a>
-                    </div>
-                    <div class="flex flex-col space-y-2.5 pt-[2px]">
-                        <h4 class="text-[11px] font-normal text-gray-500 mb-1">依目標挑選</h4>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">減脂瘦身</a>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">增肌變壯</a>
-                        <a href="#ai-consultant" class="mega-link text-xs font-semibold text-brand-teal hover:text-brand-appleBlue transition-colors mt-2">不知道怎麼選？問 AI ✨</a>
-                    </div>
-                </div>
+            <!-- 手機版漢堡按鈕 -->
+            <div class="md:hidden flex items-center gap-4">
+                <a href="admin.html" target="_blank" class="text-gray-500 hover:text-black transition" title="管理員登入">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </a>
+                <button id="menu-toggle" class="p-1 text-gray-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="pt-[52px]">
-        <!-- ⭐️ 完美復刻的主視覺 (Hero Section) ⭐️ -->
-        <section id="hero" class="page-section flex flex-col items-center justify-between h-[calc(100dvh-52px)] px-4 bg-white relative overflow-hidden">
+    <!-- 手機版折疊選單 -->
+    <div id="mobile-menu" class="hidden fixed top-16 left-0 w-full bg-white/95 backdrop-blur-md border-b shadow-lg z-40 p-6 flex-col gap-4 text-center md:hidden transition-all">
+        <a href="#about" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">關於我們</a>
+        <a href="#dashboard" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">健康儀表板</a>
+        <a href="#services" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">運動選項</a>
+        <a href="#compare" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">比較方案</a>
+        <a href="#ai-consultant" class="mobile-nav-link block py-3 text-lg font-bold text-brand-appleBlue">體驗 AI 顧問 ✨</a>
+    </div>
+
+    <!-- 主內容區 -->
+    <main class="pt-16">
+        <!-- 主視覺區 (Hero Section) -->
+        <section id="hero" class="page-section flex flex-col items-center justify-between h-[calc(100dvh-64px)] px-4 bg-white relative overflow-hidden">
             <!-- 上半部：文字與按鈕區 -->
-            <div class="text-center z-10 w-full max-w-4xl mt-12 md:mt-[10vh]">
+            <div class="text-center z-10 w-full max-w-4xl mt-8 md:mt-[8vh]">
                 <h1 class="text-[46px] md:text-[76px] font-bold tracking-tight mb-2 text-[#1d1d1f] apple-animate leading-none" style="animation-delay: 0.1s;">
                     VITA CORE
                 </h1>
@@ -154,11 +129,9 @@
                 </p>
                 
                 <div class="flex items-center justify-center gap-4 md:gap-7 apple-animate" style="animation-delay: 0.5s;">
-                    <!-- 藍色藥丸按鈕 -->
-                    <a href="#ai-consultant" class="bg-[#0071e3] text-white px-5 py-2.5 md:px-7 md:py-3 rounded-full text-[15px] md:text-[17px] font-medium hover:bg-[#0077ed] transition-colors shadow-sm flex items-center gap-1">
+                    <a href="#ai-consultant" class="bg-[#0071e3] text-white px-6 py-3 md:px-8 md:py-3.5 rounded-full text-[15px] md:text-[17px] font-medium hover:bg-[#0077ed] transition-colors shadow-sm flex items-center gap-2">
                         體驗 AI 顧問 ✨
                     </a>
-                    <!-- 藍色文字連結 -->
                     <a href="#compare" class="text-[#0071e3] text-[15px] md:text-[17px] font-medium hover:underline flex items-center group transition-colors">
                         比較方案 <span class="ml-1 text-[11px] md:text-[13px] group-hover:translate-x-1 transition-transform">❯</span>
                     </a>
@@ -173,27 +146,21 @@
             </div>
         </section>
 
-        <!-- 關於我們 (150字文案) -->
-        <section id="about" class="page-section hidden py-32 bg-white min-h-[80vh] flex flex-col justify-center relative overflow-hidden">
+        <!-- 關於我們 -->
+        <section id="about" class="page-section hidden py-24 md:py-32 bg-white min-h-[80vh] flex flex-col justify-center relative overflow-hidden">
             <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
                 <span class="text-[#0071e3] font-semibold tracking-wider uppercase text-sm mb-4 block">About VITA CORE</span>
-                <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText mb-8">
-                    數據驅動，成就極致健康。
-                </h2>
+                <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText mb-8">數據驅動，成就極致健康。</h2>
                 <div class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto space-y-6 text-left md:text-center">
-                    <p>
-                        VITA CORE 致力於重新定義現代人的健康軌跡。我們深信，真正的進化源於精確的數據與個人化的深度指導。透過結合頂尖 AI 演算法與醫療級分析，我們打破傳統一體適用的盲點，為每位使用者量身打造專屬的訓練與營養藍圖。
-                    </p>
-                    <p>
-                        從動態健康圓環的直覺追蹤，到全天候的專屬 AI 顧問，VITA CORE 將複雜的科學指標轉化為日常生活中輕鬆實踐的行動。我們不僅是您的健身平台，更是引領您從被動應對走向主動預防，找回身心靈極致平衡的最佳健康夥伴。
-                    </p>
+                    <p>VITA CORE 致力於重新定義現代人的健康軌跡。我們深信，真正的進化源於精確的數據與個人化的深度指導。透過結合頂尖 AI 演算法與醫療級分析，我們打破傳統一體適用的盲點，為每位使用者量身打造專屬的訓練與營養藍圖。</p>
+                    <p>從動態健康圓環的直覺追蹤，到全天候的專屬 AI 顧問，VITA CORE 將複雜的科學指標轉化為日常生活中輕鬆實踐的行動。我們不僅是您的健身平台，更是引領您從被動應對走向主動預防，找回身心靈極致平衡的最佳健康夥伴。</p>
                 </div>
             </div>
             <!-- 背景裝飾 -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-gray-50 to-gray-100 rounded-full blur-3xl -z-10 opacity-60"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-gray-50 to-blue-50/50 rounded-full blur-3xl -z-10 opacity-60"></div>
         </section>
 
-        <!-- 專屬健康儀表板 -->
+        <!-- 專屬健康儀表板 (SVG 動態圓環) -->
         <section id="dashboard" class="page-section hidden py-24 min-h-screen bg-brand-appleGray">
             <div class="max-w-5xl mx-auto px-6">
                 <header class="mb-12 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
@@ -207,7 +174,8 @@
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div class="relative w-full max-w-[350px] mx-auto aspect-square bg-black rounded-[3rem] p-8 shadow-2xl flex items-center justify-center">
+                    <!-- 左側圓環 -->
+                    <div class="relative w-full max-w-[320px] md:max-w-[350px] mx-auto aspect-square bg-black rounded-[3rem] p-8 shadow-2xl flex items-center justify-center">
                         <svg class="w-full h-full" viewBox="0 0 200 200">
                             <circle cx="100" cy="100" r="80" stroke="#330000" stroke-width="16" fill="none" />
                             <circle cx="100" cy="100" r="60" stroke="#003300" stroke-width="16" fill="none" />
@@ -224,8 +192,9 @@
                         </div>
                     </div>
 
-                    <div class="space-y-6">
-                        <div class="bg-white p-6 rounded-3xl border border-gray-100 flex justify-between items-center shadow-sm hover:shadow-md transition">
+                    <!-- 右側控制面板 -->
+                    <div class="space-y-4 md:space-y-6">
+                        <div class="bg-white p-5 md:p-6 rounded-3xl border border-gray-100 flex justify-between items-center shadow-sm hover:shadow-md transition">
                             <div>
                                 <h3 class="text-[#ff3b30] font-bold text-lg">活動 (Move)</h3>
                                 <p class="text-gray-500 text-sm">目標 500 大卡 <span id="text-move" class="font-mono text-brand-appleText font-bold ml-2">0</span> / 500</p>
@@ -233,7 +202,7 @@
                             <button onclick="addProgress('move', 100)" class="w-10 h-10 bg-gray-50 rounded-full shadow-sm border flex items-center justify-center text-[#ff3b30] hover:bg-[#ff3b30] hover:text-white transition font-bold text-xl">＋</button>
                         </div>
                         
-                        <div class="bg-white p-6 rounded-3xl border border-gray-100 flex justify-between items-center shadow-sm hover:shadow-md transition">
+                        <div class="bg-white p-5 md:p-6 rounded-3xl border border-gray-100 flex justify-between items-center shadow-sm hover:shadow-md transition">
                             <div>
                                 <h3 class="text-[#34c759] font-bold text-lg">鍛鍊 (Exercise)</h3>
                                 <p class="text-gray-500 text-sm">目標 30 分鐘 <span id="text-exercise" class="font-mono text-brand-appleText font-bold ml-2">0</span> / 30</p>
@@ -241,7 +210,7 @@
                             <button onclick="addProgress('exercise', 10)" class="w-10 h-10 bg-gray-50 rounded-full shadow-sm border flex items-center justify-center text-[#34c759] hover:bg-[#34c759] hover:text-white transition font-bold text-xl">＋</button>
                         </div>
 
-                        <div class="bg-white p-6 rounded-3xl border border-gray-100 flex justify-between items-center shadow-sm hover:shadow-md transition">
+                        <div class="bg-white p-5 md:p-6 rounded-3xl border border-gray-100 flex justify-between items-center shadow-sm hover:shadow-md transition">
                             <div>
                                 <h3 class="text-[#00c6ff] font-bold text-lg">正念 (Mindfulness)</h3>
                                 <p class="text-gray-500 text-sm">目標 15 分鐘 <span id="text-mind" class="font-mono text-brand-appleText font-bold ml-2">0</span> / 15</p>
@@ -249,7 +218,7 @@
                             <button onclick="addProgress('mind', 5)" class="w-10 h-10 bg-gray-50 rounded-full shadow-sm border flex items-center justify-center text-[#00c6ff] hover:bg-[#00c6ff] hover:text-white transition font-bold text-xl">＋</button>
                         </div>
                         
-                        <div class="pt-4 flex gap-4">
+                        <div class="pt-2 md:pt-4 flex gap-4">
                             <button onclick="resetProgress()" class="text-sm text-gray-400 hover:text-gray-800 underline">重置今日數據</button>
                         </div>
                     </div>
@@ -264,34 +233,34 @@
                     <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText">探索運動與服務選項</h2>
                     <p class="mt-4 text-xl text-gray-500">全方位的身心靈提升方案，從熱門課程到專屬諮詢一應俱全。</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                     <div class="bg-brand-appleGray rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="bg-[#1d1d1f] px-8 py-6">
-                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">🏋️‍♂️ 健身與運動項目</h3>
+                            <h3 class="text-xl md:text-2xl font-bold text-white flex items-center gap-3">🏋️‍♂️ 健身與運動項目</h3>
                         </div>
-                        <div class="p-8 space-y-8">
+                        <div class="p-6 md:p-8 space-y-8">
                             <div class="border-l-4 border-[#028090] pl-5">
                                 <h4 class="text-lg font-bold text-brand-appleText">個人訓練</h4>
-                                <p class="text-gray-600 mt-2 leading-relaxed">專屬教練一對一指導，透過精準的數據分析，為您量身打造專屬的進化歷程。</p>
+                                <p class="text-gray-600 mt-2 leading-relaxed text-sm md:text-base">專屬教練一對一指導，透過精準的數據分析，為您量身打造專屬的進化歷程。</p>
                             </div>
                             <div class="border-l-4 border-[#028090] pl-5">
                                 <h4 class="text-lg font-bold text-brand-appleText">團體課程</h4>
-                                <p class="text-gray-600 mt-2 leading-relaxed">實踐健康平權科學，在群體互動中體驗健康之旅的動力。包含：重量訓練、瑜伽、皮拉提斯、HIIT等。</p>
+                                <p class="text-gray-600 mt-2 leading-relaxed text-sm md:text-base">實踐健康平權科學，在群體互動中體驗健康之旅的動力。包含：重量訓練、瑜伽、皮拉提斯、HIIT等。</p>
                             </div>
                         </div>
                     </div>
                     <div class="bg-brand-appleGray rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="bg-[#028090] px-8 py-6">
-                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">🧘‍♀️ 恢復與健康項目</h3>
+                            <h3 class="text-xl md:text-2xl font-bold text-white flex items-center gap-3">🧘‍♀️ 恢復與健康項目</h3>
                         </div>
-                        <div class="p-8 space-y-8">
+                        <div class="p-6 md:p-8 space-y-8">
                             <div class="border-l-4 border-[#1d1d1f] pl-5">
                                 <h4 class="text-lg font-bold text-brand-appleText">營養計畫</h4>
-                                <p class="text-gray-600 mt-2 leading-relaxed">專業的營養計畫輔導，提供低碳、生酮或全植物性選擇，為整體健康提供強大後盾。</p>
+                                <p class="text-gray-600 mt-2 leading-relaxed text-sm md:text-base">專業的營養計畫輔導，提供低碳、生酮或全植物性選擇，為整體健康提供強大後盾。</p>
                             </div>
                             <div class="border-l-4 border-[#1d1d1f] pl-5">
                                 <h4 class="text-lg font-bold text-brand-appleText">正念冥想</h4>
-                                <p class="text-gray-600 mt-2 leading-relaxed">專屬靜心空間與引導課程，協助您減輕壓力，找回正念心態，享受身心靈的極致平衡。</p>
+                                <p class="text-gray-600 mt-2 leading-relaxed text-sm md:text-base">專屬靜心空間與引導課程，協助您減輕壓力，找回正念心態，享受身心靈的極致平衡。</p>
                             </div>
                         </div>
                     </div>
@@ -331,25 +300,25 @@
                                 <th colspan="4" class="p-4 text-left text-lg font-bold text-brand-appleText border-y border-gray-200">核心訓練與科學追蹤</th>
                             </tr>
                             <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">教練指導模式</td>
-                                <td class="p-6 text-gray-600 border-l border-gray-100">無限制參與開放團體課程</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-100">每週 2 堂一對一專屬訓練</td>
-                                <td class="p-6 text-[#0071e3] font-bold border-l border-gray-100">專屬教練全天候無限制預約</td>
+                                <td class="p-4 md:p-6 text-left font-semibold text-gray-900">教練指導模式</td>
+                                <td class="p-4 md:p-6 text-gray-600 border-l border-gray-100">無限制參與開放團體課程</td>
+                                <td class="p-4 md:p-6 text-gray-900 font-medium border-l border-gray-100">每週 2 堂一對一專屬訓練</td>
+                                <td class="p-4 md:p-6 text-[#0071e3] font-bold border-l border-gray-100">專屬教練全天候無預約限制</td>
                             </tr>
                             <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">體能與科學檢測</td>
-                                <td class="p-6 text-gray-600 border-l border-gray-100">基礎 InBody 量測</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-100">每月動態評估與體態分析</td>
-                                <td class="p-6 text-[#0071e3] font-bold border-l border-gray-100">深度醫療級科學檢測</td>
+                                <td class="p-4 md:p-6 text-left font-semibold text-gray-900">體能與科學檢測</td>
+                                <td class="p-4 md:p-6 text-gray-600 border-l border-gray-100">基礎 InBody 量測</td>
+                                <td class="p-4 md:p-6 text-gray-900 font-medium border-l border-gray-100">每月動態評估與體態分析</td>
+                                <td class="p-4 md:p-6 text-[#0071e3] font-bold border-l border-gray-100">深度醫療級科學檢測</td>
                             </tr>
                             <tr class="bg-gray-50/50">
                                 <th colspan="4" class="p-4 text-left text-lg font-bold text-brand-appleText border-y border-gray-200">健康與恢復</th>
                             </tr>
                             <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">營養計畫</td>
-                                <td class="p-6 text-gray-600 border-l border-gray-100">線上通用指南</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-100">標準菜單規劃</td>
-                                <td class="p-6 text-[#0071e3] font-bold border-l border-gray-100">三餐即時監控與客製</td>
+                                <td class="p-4 md:p-6 text-left font-semibold text-gray-900">營養計畫</td>
+                                <td class="p-4 md:p-6 text-gray-600 border-l border-gray-100">線上通用指南</td>
+                                <td class="p-4 md:p-6 text-gray-900 font-medium border-l border-gray-100">標準菜單規劃</td>
+                                <td class="p-4 md:p-6 text-[#0071e3] font-bold border-l border-gray-100">三餐即時監控與客製</td>
                             </tr>
                         </tbody>
                     </table>
@@ -363,12 +332,12 @@
                 <div class="text-center mb-12">
                     <span class="text-brand-appleBlue font-semibold tracking-wider uppercase text-sm">Powered by Gemini ✨</span>
                     <h2 class="mt-2 text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText">VITA AI 專屬教練</h2>
-                    <p class="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">設定您的 6 大維度目標，讓頂級 AI 即時生成您的專屬進化藍圖。</p>
+                    <p class="mt-4 text-lg md:text-xl text-gray-500 max-w-2xl mx-auto">設定您的 6 大維度目標，讓頂級 AI 即時生成您的專屬進化藍圖。</p>
                 </div>
 
-                <div class="bg-brand-appleGray rounded-[2rem] shadow-sm p-8 md:p-12 border border-gray-200">
-                    <form id="ai-form" class="space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-brand-appleGray rounded-[2rem] shadow-sm p-6 md:p-12 border border-gray-200">
+                    <form id="ai-form" class="space-y-6 md:space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">主要目標</label>
                                 <select id="user-goal" class="w-full bg-white border border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-appleBlue outline-none">
@@ -407,8 +376,8 @@
                             </div>
                         </div>
                         <div class="pt-4 flex justify-center">
-                            <button type="submit" id="ai-submit-btn" class="bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold rounded-full px-8 py-3 transition-colors shadow-sm flex items-center gap-2">
-                                ✨ 重新產生
+                            <button type="submit" id="ai-submit-btn" class="w-full md:w-auto bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold rounded-full px-8 py-3.5 transition-colors shadow-sm flex justify-center items-center gap-2">
+                                ✨ 產生專屬計畫
                             </button>
                         </div>
                     </form>
@@ -430,33 +399,35 @@
         <section id="testimonials" class="page-section hidden py-24 bg-brand-appleGray overflow-hidden">
             <div class="text-center mb-12"><h2 class="text-4xl font-semibold tracking-tighter">真實故事。</h2></div>
             <div class="relative w-full py-8">
-                <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-brand-appleGray to-transparent z-10"></div>
-                <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-brand-appleGray to-transparent z-10"></div>
-                <div class="animate-marquee flex gap-8">
-                    <div class="flex gap-8 min-w-max pr-8">
-                        <div class="w-[350px] bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+                <div class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-brand-appleGray to-transparent z-10"></div>
+                <div class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-brand-appleGray to-transparent z-10"></div>
+                <div class="animate-marquee flex gap-6 md:gap-8">
+                    <!-- 第一組跑馬燈 -->
+                    <div class="flex gap-6 md:gap-8 min-w-max pr-6 md:pr-8">
+                        <div class="w-[300px] md:w-[350px] bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                             <h4 class="font-bold text-lg">李先生 👨🏻‍💻</h4><p class="text-sm text-brand-appleBlue mb-4">工程師</p>
                             <p class="text-gray-700">"健康儀表板的圓環設計太完美了！讓我每天都有動力把它填滿。"</p>
                         </div>
-                        <div class="w-[350px] bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+                        <div class="w-[300px] md:w-[350px] bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                             <h4 class="font-bold text-lg">王小姐 👩🏻‍💼</h4><p class="text-sm text-brand-appleBlue mb-4">企業經理</p>
                             <p class="text-gray-700">"AI 顧問給的生酮飲食菜單非常精準，替我省下大量時間。"</p>
                         </div>
-                        <div class="w-[350px] bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+                        <div class="w-[300px] md:w-[350px] bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                             <h4 class="font-bold text-lg">陳大姊 👩🏻‍🦳</h4><p class="text-sm text-brand-appleBlue mb-4">退休人士</p>
                             <p class="text-gray-700">"客服回覆超快，幫助我這個老人家學會怎麼預約課程！"</p>
                         </div>
                     </div>
-                    <div class="flex gap-8 min-w-max pr-8" aria-hidden="true">
-                        <div class="w-[350px] bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+                    <!-- 複製第二組以達成無縫迴圈 -->
+                    <div class="flex gap-6 md:gap-8 min-w-max pr-6 md:pr-8" aria-hidden="true">
+                        <div class="w-[300px] md:w-[350px] bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                             <h4 class="font-bold text-lg">李先生 👨🏻‍💻</h4><p class="text-sm text-brand-appleBlue mb-4">工程師</p>
                             <p class="text-gray-700">"健康儀表板的圓環設計太完美了！讓我每天都有動力把它填滿。"</p>
                         </div>
-                        <div class="w-[350px] bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+                        <div class="w-[300px] md:w-[350px] bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                             <h4 class="font-bold text-lg">王小姐 👩🏻‍💼</h4><p class="text-sm text-brand-appleBlue mb-4">企業經理</p>
                             <p class="text-gray-700">"AI 顧問給的生酮飲食菜單非常精準，替我省下大量時間。"</p>
                         </div>
-                        <div class="w-[350px] bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+                        <div class="w-[300px] md:w-[350px] bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm">
                             <h4 class="font-bold text-lg">陳大姊 👩🏻‍🦳</h4><p class="text-sm text-brand-appleBlue mb-4">退休人士</p>
                             <p class="text-gray-700">"客服回覆超快，幫助我這個老人家學會怎麼預約課程！"</p>
                         </div>
@@ -468,7 +439,7 @@
 
     <!-- 右下角線上客服 -->
     <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-        <div id="chat-widget-panel" class="hidden bg-white w-80 rounded-2xl shadow-2xl border border-gray-100 flex-col overflow-hidden mb-4">
+        <div id="chat-widget-panel" class="hidden bg-white w-80 rounded-2xl shadow-2xl border border-gray-100 flex-col overflow-hidden mb-4 transition-all">
             <div class="bg-gray-50 px-4 py-3 border-b flex justify-between items-center">
                 <span class="font-semibold text-sm flex items-center gap-2"><div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>線上客服</span>
                 <button id="close-chat-btn" class="text-gray-400 hover:text-black">✕</button>
@@ -484,7 +455,7 @@
         </button>
     </div>
 
-    <!-- Firebase 與前端邏輯 -->
+    <!-- Firebase 與 JS 邏輯 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -602,19 +573,36 @@
         }
 
         // ==========================
-        // Gemini AI (加入防呆重試機制與精確變數)
+        // Gemini AI (包含展示模式防呆)
         // ==========================
+        // ⚠️ 在 Canvas 預覽環境中，請維持為 "" 空字串
+        // ⚠️ 若部署到您自己的網站，請填入申請到的 "AIza..." 金鑰
         const apiKey = ""; 
         
         async function fetchGeminiWithRetry(prompt, retries = 5) {
-            // 實作指數退避重試：1秒、2秒、4秒、8秒、16秒
+            // Demo 模式判斷：如果沒有 apiKey，自動使用展示效果
+            if (!apiKey || apiKey.trim() === "") {
+                console.log("偵測到無 API Key，啟動展示模式 (Demo Mode)");
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                return `
+                    <h3>✨ 您的專屬 VITA 藍圖已備妥</h3>
+                    <p>根據您的設定（<strong>${document.getElementById('user-goal').value}</strong>），系統為您產生以下建議：</p>
+                    <ul>
+                        <li><b>訓練頻率：</b>每週 ${document.getElementById('user-days').value}，每次 ${document.getElementById('user-duration').value}。</li>
+                        <li><b>飲食方針：</b>遵循 ${document.getElementById('user-diet').value}，確保能量穩定。</li>
+                        <li><b>重點強化：</b>特別針對 ${document.getElementById('user-focus').value} 安排專屬動作。</li>
+                    </ul>
+                    <p class="text-sm text-gray-500 mt-4">* 提示：您目前正在體驗無金鑰的展示模式。填寫真實金鑰後，將可獲得由 Gemini 產出的客製化真實長篇建議。</p>
+                `;
+            }
+
             const delays = [1000, 2000, 4000, 8000, 16000];
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { 
-                    parts: [{ text: "你是一位 VITA CORE 的頂級健康與健身專屬顧問。請用專業、充滿鼓勵與能量的語氣，以繁體中文回答。請直接輸出 HTML 格式（只包含 <h3>, <p>, <ul>, <li>, <strong> 等基本標籤），不需要 Markdown 標記，也不要包含 ```html 區塊包裝，直接輸出純 HTML 內容。" }] 
+                    parts: [{ text: "你是一位 VITA CORE 的頂級健康與健身專屬顧問。請用專業、充滿鼓勵的語氣，以繁體中文回答。請直接輸出 HTML 格式（包含 <h3>, <p>, <ul>, <li>, <b> 等），不需要 Markdown 標記。" }] 
                 }
             };
 
@@ -626,15 +614,13 @@
                         body: JSON.stringify(payload)
                     });
                     
-                    if (!response.ok) {
-                        throw new Error(`HTTP 錯誤! 狀態碼: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                     
                     const result = await response.json();
                     return result.candidates?.[0]?.content?.parts?.[0]?.text || "<p>產生內容為空。</p>";
                 } catch (error) {
-                    if (i === retries - 1) throw error; // 最後一次依然失敗則丟出錯誤
-                    console.warn(`API 繁忙，${delays[i]/1000} 秒後重試... (第 ${i+1}/${retries} 次)`);
+                    if (i === retries - 1) throw error; 
+                    console.warn(`API 繁忙，重試中... (${i+1}/${retries})`);
                     await new Promise(resolve => setTimeout(resolve, delays[i]));
                 }
             }
@@ -656,15 +642,12 @@
             try {
                 const aiHTML = await fetchGeminiWithRetry(prompt);
                 resDiv.innerHTML = aiHTML;
-                window.addProgress('mind', 10); // 成功後給予正念分數獎勵
+                window.addProgress('mind', 10); 
             } catch(err) { 
-                console.error("AI 生成錯誤:", err);
-                // 優雅降級：若多次重試仍失敗，顯示友善的錯誤畫面
                 resDiv.innerHTML = `
                     <div class="bg-red-50 text-red-600 p-6 rounded-2xl text-center border border-red-100">
-                        <svg class="w-8 h-8 mx-auto mb-2 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         <h4 class="font-bold text-lg mb-1">系統目前較為繁忙</h4>
-                        <p class="text-sm">頂級 AI 教練正在為大量會員服務，請稍後幾秒鐘再重新點擊產生。</p>
+                        <p class="text-sm">請稍後幾秒鐘再重新點擊產生。</p>
                     </div>`; 
             }
             
@@ -674,30 +657,43 @@
             resContainer.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // UI 互動
+        // ==========================
+        // UI 互動 & 導航路由
+        // ==========================
         document.addEventListener('DOMContentLoaded', () => {
-            const megaMenu = document.getElementById('mega-menu');
-            let isMegaOpen = false;
-            document.querySelectorAll('.mega-trigger').forEach(el => el.addEventListener('click', (e) => {
-                e.preventDefault(); isMegaOpen = !isMegaOpen;
-                megaMenu.style.opacity = isMegaOpen ? '1' : '0';
-                megaMenu.style.maxHeight = isMegaOpen ? '500px' : '0px';
-                megaMenu.style.pointerEvents = isMegaOpen ? 'auto' : 'none';
-            }));
+            // 手機版漢堡選單邏輯
+            const menuToggleBtn = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
             
+            menuToggleBtn?.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex');
+            });
+
+            // 點擊手機版選單連結後，自動收起選單
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                });
+            });
+            
+            // 客服視窗邏輯
             const chatPanel = document.getElementById('chat-widget-panel');
             document.getElementById('chat-toggle-btn')?.addEventListener('click', () => { chatPanel.classList.toggle('hidden'); chatPanel.classList.toggle('flex'); });
             document.getElementById('close-chat-btn')?.addEventListener('click', () => { chatPanel.classList.add('hidden'); chatPanel.classList.remove('flex'); });
 
+            // 頁面切換邏輯 (SPA 模擬)
             function handleRoute() {
                 const hash = window.location.hash || '#hero';
                 document.querySelectorAll('.page-section').forEach(page => {
                     if ('#' + page.id === hash) {
                         page.classList.remove('hidden');
                         if(hash !== '#hero') page.classList.add('animate-fadeIn');
-                    } else page.classList.add('hidden');
+                    } else {
+                        page.classList.add('hidden');
+                    }
                 });
-                isMegaOpen = false; megaMenu.style.maxHeight = '0px'; megaMenu.style.opacity = '0';
                 window.scrollTo({top: 0, behavior: 'instant'});
             }
             window.addEventListener('hashchange', handleRoute);
