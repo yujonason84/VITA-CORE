@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="scroll-smooth">
+<html lang="zh-Hant" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,502 +15,307 @@
                             teal: '#00a896',
                             blue: '#028090',
                             dark: '#0b4f4f',
-                            light: '#f0f7f7',
                             appleGray: '#fbfbfd',
                             appleText: '#1d1d1f',
                             appleBlue: '#0071e3',
                             appleBlueHover: '#0077ed',
-                            appleLink: '#0066cc'
                         }
                     },
                     fontFamily: {
-                        // 套用 Apple 系統字體
-                        apple: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro TC"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif']
+                        apple: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro TC"', '"SF Pro Display"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        /* 全域套用 Apple 字體 */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Apple 風格進場動畫 */
+        /* 蘋果風格細膩進場動畫 */
         @keyframes appleFadeUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px) scale(0.98); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-            }
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-
-        .apple-animate {
-            opacity: 0;
-            animation: appleFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* 頁面切換淡入動畫 (SPA用) */
+        .apple-animate { opacity: 0; animation: appleFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fadeIn {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
 
-        /* AI 生成內容的樣式 (適合全螢幕閱讀) */
-        .ai-content h3 { font-size: 1.25rem; font-weight: 600; color: #1d1d1f; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-        .ai-content p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; }
-        .ai-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
-        .ai-content li { margin-bottom: 0.375rem; }
-        .ai-content strong { color: #1d1d1f; font-weight: 600; }
-
-        /* 懸浮球專屬動畫 */
-        @keyframes float-ball {
-            0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 10px 15px -3px rgba(0, 168, 150, 0.3); }
-            50% { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 25px -5px rgba(0, 168, 150, 0.4); }
-        }
-        .animate-float-ball {
-            animation: float-ball 3s ease-in-out infinite;
-        }
-
-        /* 客戶故事跑馬燈專屬動畫 */
         @keyframes scroll-horizontal {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
         }
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: scroll-horizontal 30s linear infinite;
+        .animate-marquee { display: flex; width: max-content; animation: scroll-horizontal 30s linear infinite; }
+        .animate-marquee:hover { animation-play-state: paused; }
+
+        /* 健康圓環 SVG 樣式 */
+        .progress-ring__circle {
+            transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            stroke-linecap: round;
         }
-        .animate-marquee:hover {
-            animation-play-state: paused;
-        }
+
+        /* AI 內容排版 */
+        .ai-content h3 { font-size: 1.25rem; font-weight: 600; color: #1d1d1f; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .ai-content p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; }
+        .ai-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
+        .ai-content li { margin-bottom: 0.375rem; }
     </style>
 </head>
-<body class="bg-brand-light text-gray-800">
+<body class="bg-white text-brand-appleText font-apple">
 
     <!-- 導航列 -->
-    <header class="fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
-        <!-- 背景層處理：毛玻璃與展開時的實色切換 -->
-        <div id="header-bg-glass" class="absolute inset-0 bg-[#fbfbfd]/80 backdrop-blur-md border-b border-gray-200 transition-opacity duration-300 z-0"></div>
-        <div id="header-bg-solid" class="absolute inset-0 bg-[#fbfbfd] opacity-0 transition-opacity duration-300 z-0 shadow-sm"></div>
-
-        <div class="max-w-[1024px] mx-auto px-4 relative z-20">
-            <div class="flex justify-between items-center h-[44px] text-xs font-apple">
-                <!-- Logo 區塊 -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
-                    <a href="#about" class="nav-trigger">
-                        <img class="h-5 w-auto object-contain" src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" alt="VITA CORE Logo">
+    <header class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100" id="navbar">
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-20">
+            <div class="flex justify-between items-center h-[52px]">
+                
+                <!-- 左側：極簡 Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <a href="#hero" class="nav-trigger flex items-center gap-2">
+                        <div class="w-4 h-4 bg-gray-300 text-[10px] text-white flex items-center justify-center rounded-sm font-bold">P</div>
+                        <span class="text-xs font-semibold text-gray-500 hidden sm:block tracking-wide">VITA CORE | Premium Wellness & Fitness</span>
                     </a>
                 </div>
                 
-                <!-- 桌面版選單 -->
-                <nav class="hidden md:flex justify-between flex-1 max-w-[700px] mx-8">
-                    <a href="#about" class="nav-link nav-trigger opacity-80 hover:opacity-100 transition-opacity text-gray-800">關於我們</a>
-                    <a href="#core-values" class="nav-link nav-trigger opacity-80 hover:opacity-100 transition-opacity text-gray-800">核心價值</a>
-                    <a href="#services" class="nav-link mega-trigger opacity-80 hover:opacity-100 transition-opacity text-gray-800 cursor-pointer">運動選項</a>
-                    <a href="#compare" class="nav-link nav-trigger opacity-80 hover:opacity-100 transition-opacity text-gray-800">比較方案</a>
-                    <a href="#testimonials" class="nav-link nav-trigger opacity-80 hover:opacity-100 transition-opacity text-gray-800">客戶服務</a>
-                    <!-- AI 顧問選單 -->
-                    <a href="#ai-consultant" class="nav-link nav-trigger opacity-80 hover:opacity-100 transition-opacity text-gray-800 flex items-center gap-1">AI 顧問 ✨</a>
+                <!-- 中間：文字導航選單 -->
+                <nav class="hidden md:flex flex-1 justify-center space-x-10 text-[12px] font-semibold text-gray-600">
+                    <a href="#about" class="nav-link nav-trigger hover:text-black transition-colors">關於我們</a>
+                    <a href="#core-values" class="nav-link nav-trigger hover:text-black transition-colors">核心價值</a>
+                    <a href="#services" class="nav-link mega-trigger hover:text-black transition-colors cursor-pointer">運動選項</a>
+                    <a href="#compare" class="nav-link nav-trigger hover:text-black transition-colors">比較方案</a>
+                    <a href="#testimonials" class="nav-link nav-trigger hover:text-black transition-colors">客戶服務</a>
+                    <a href="#ai-consultant" class="nav-link nav-trigger hover:text-black transition-colors flex items-center gap-1">AI 顧問 ✨</a>
                 </nav>
 
-                <!-- 右側 Icon 工具列 -->
-                <div class="hidden md:flex items-center space-x-6 opacity-80">
-                    <button class="hover:opacity-100 transition-opacity text-gray-800" title="搜尋">
-                        <svg class="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <!-- 右側：功能圖示 -->
+                <div class="hidden md:flex items-center space-x-6 text-gray-600">
+                    <button class="hover:text-black transition-colors" title="搜尋">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </button>
-                    <button class="hover:opacity-100 transition-opacity text-gray-800" title="購物袋">
-                        <svg class="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                    </button>
+                    <a href="admin.html" target="_blank" class="hover:text-black transition-colors" title="管理員登入">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </a>
                 </div>
-
-                <!-- 手機版選單按鈕 (漢堡選單) -->
-                <div class="md:hidden flex items-center opacity-80">
+                
+                <!-- 手機版選單按鈕 -->
+                <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-gray-800 focus:outline-none">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- 展開的巨型選單面板 (Apple Mega Menu 風格) -->
-        <div id="mega-menu" class="absolute top-[44px] left-0 w-full overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-10 bg-[#fbfbfd]" style="max-height: 0px; opacity: 0; pointer-events: none;">
-            <div class="max-w-[1024px] mx-auto px-8 md:px-16 pt-10 pb-16">
+        <!-- Mega Menu (巨型選單) -->
+        <div id="mega-menu" class="absolute top-[52px] left-0 w-full overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-10 bg-white shadow-sm border-b border-gray-100" style="max-height: 0px; opacity: 0; pointer-events: none;">
+            <div class="max-w-[1024px] mx-auto px-8 md:px-16 pt-8 pb-12">
                 <div class="flex flex-wrap gap-16 md:gap-24">
-                    <!-- 左側主選項: 運動分類 -->
                     <div class="flex flex-col space-y-3">
                         <h4 class="text-[11px] font-normal text-gray-500 mb-1">熱門運動</h4>
                         <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">重量訓練</a>
                         <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">瑜伽與皮拉提斯</a>
                         <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">高強度間歇 (HIIT)</a>
-                        <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">有氧燃脂</a>
-                        <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">核心強化</a>
-                        <a href="#services" class="mega-link text-2xl font-bold text-brand-appleText hover:text-brand-appleBlue transition-colors">探索全部課程</a>
                     </div>
-                    
-                    <!-- 中間快速連結: 依目標 -->
                     <div class="flex flex-col space-y-2.5 pt-[2px]">
                         <h4 class="text-[11px] font-normal text-gray-500 mb-1">依目標挑選</h4>
                         <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">減脂瘦身</a>
                         <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">增肌變壯</a>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">提升心肺</a>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">舒緩放鬆</a>
                         <a href="#ai-consultant" class="mega-link text-xs font-semibold text-brand-teal hover:text-brand-appleBlue transition-colors mt-2">不知道怎麼選？問 AI ✨</a>
                     </div>
-
-                    <!-- 右側特定服務 -->
-                    <div class="flex flex-col space-y-2.5 pt-[2px]">
-                        <h4 class="text-[11px] font-normal text-gray-500 mb-1">專屬服務</h4>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">一對一私人教練</a>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">精緻小班團課</a>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">專業營養諮詢</a>
-                        <a href="#services" class="mega-link text-xs font-semibold text-brand-appleText hover:text-brand-appleBlue transition-colors">運動恢復理療</a>
-                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- 手機版選單內容 (預設隱藏) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#fbfbfd] border-t border-gray-200 absolute w-full shadow-lg h-screen z-10">
-            <div class="px-6 pt-4 pb-3 space-y-4 text-xl font-medium">
-                <a href="#about" class="mobile-nav-link block border-b border-gray-200 pb-3 text-black">關於我們</a>
-                <a href="#core-values" class="mobile-nav-link block border-b border-gray-200 pb-3 text-gray-800">核心價值</a>
-                <a href="#services" class="mobile-nav-link block border-b border-gray-200 pb-3 text-gray-800">運動選項</a>
-                <a href="#compare" class="mobile-nav-link block border-b border-gray-200 pb-3 text-gray-800">比較方案</a>
-                <a href="#testimonials" class="mobile-nav-link block border-b border-gray-200 pb-3 text-gray-800">客戶服務</a>
-                <a href="#ai-consultant" class="mobile-nav-link block border-b border-gray-200 pb-3 text-brand-teal">AI 顧問 ✨</a>
-                <a href="#admin-dashboard" class="mobile-nav-link block border-b border-gray-200 pb-3 text-gray-400 text-sm">🔒 後臺管理</a>
             </div>
         </div>
     </header>
 
-    <main class="pt-[44px]">
-        <!-- 關於我們 (Apple 風格主視覺) -->
-        <section id="about" class="page-section relative overflow-hidden bg-brand-appleGray min-h-[90vh] flex flex-col justify-between pt-24 pb-0">
-            <!-- 文字標題區 -->
-            <div class="text-center z-10 w-full px-4 flex flex-col items-center">
-                <h2 class="text-brand-appleText text-5xl md:text-7xl font-semibold tracking-tighter mb-2 apple-animate" style="animation-delay: 0.1s;">
+    <main class="pt-[52px]">
+        <!-- 主視覺 (Hero Section) -->
+        <section id="hero" class="page-section flex flex-col items-center pt-[10vh] md:pt-[15vh] min-h-screen px-4 bg-white relative">
+            <div class="text-center z-10 w-full max-w-4xl mt-10">
+                <h1 class="text-[52px] md:text-[76px] font-semibold tracking-tight mb-2 text-[#1d1d1f] apple-animate" style="animation-delay: 0.1s;">
                     VITA CORE
-                </h2>
-                <h3 class="text-brand-appleText text-2xl md:text-3xl font-normal tracking-tight mb-6 apple-animate" style="animation-delay: 0.2s;">
+                </h1>
+                <p class="text-[20px] md:text-[26px] text-[#1d1d1f] mb-10 font-medium apple-animate" style="animation-delay: 0.3s;">
                     進階健康與健身的進化。
-                </h3>
+                </p>
                 
-                <!-- Apple 風格按鈕列 -->
-                <div class="flex items-center gap-6 mb-12 apple-animate" style="animation-delay: 0.3s;">
-                    <a href="#ai-consultant" class="bg-brand-appleBlue hover:bg-brand-appleBlueHover text-white rounded-full px-6 py-2.5 text-[17px] transition-colors shadow-sm">
+                <div class="flex items-center justify-center gap-7 mb-16 apple-animate" style="animation-delay: 0.5s;">
+                    <a href="#ai-consultant" class="bg-[#0071e3] text-white px-7 py-3 rounded-full text-[17px] font-medium hover:bg-[#0077ed] transition-colors shadow-sm flex items-center gap-2">
                         體驗 AI 顧問 ✨
                     </a>
-                    <a href="#compare" class="text-brand-appleLink hover:underline flex items-center text-[17px]">
-                        比較方案 <span class="ml-1 text-[12px]">❯</span>
+                    <a href="#compare" class="text-[#0071e3] text-[17px] font-medium hover:underline flex items-center group transition-colors">
+                        比較方案 <span class="ml-1 text-[13px] group-hover:translate-x-1 transition-transform">❯</span>
+                    </a>
+                </div>
+                
+                <div class="mt-2 mb-8 apple-animate" style="animation-delay: 0.6s;">
+                    <a href="#dashboard" class="text-xs font-semibold text-gray-500 hover:text-brand-appleBlue transition-colors border border-gray-200 rounded-full px-4 py-1.5 bg-brand-appleGray">
+                        進入專屬健康儀表板
                     </a>
                 </div>
             </div>
-            
-            <!-- 大尺寸 LOGO (模擬 Apple 產品圖) -->
-            <div class="relative w-full max-w-5xl mx-auto flex-grow flex items-end justify-center px-4 apple-animate" style="animation-delay: 0.4s;">
-                <img src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" alt="VITA CORE 大標誌" class="w-full object-contain max-h-[55vh] md:max-h-[65vh] drop-shadow-2xl translate-y-8 md:translate-y-12">
+
+            <div class="w-full max-w-[450px] mt-2 apple-animate flex-grow flex justify-center" style="animation-delay: 0.7s;">
+                <img src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" 
+                     alt="VITA CORE Premium Wellness & Fitness" 
+                     class="w-full h-auto object-contain">
             </div>
         </section>
 
-        <!-- 管理員後臺 (Admin Dashboard) -->
-        <section id="admin-dashboard" class="page-section hidden py-24 bg-gray-50 min-h-[90vh]">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <!-- 登入介面 -->
-                <div id="admin-login-view" class="max-w-md mx-auto mt-10 bg-white p-10 rounded-3xl shadow-sm border border-gray-100 text-center relative z-10">
-                    <div class="mb-6">
-                        <span class="text-4xl">🔒</span>
-                        <h2 class="mt-4 text-2xl font-semibold tracking-tight text-brand-appleText">管理員登入</h2>
-                        <p class="mt-2 text-sm text-gray-500">請輸入專屬帳號與密碼以訪問後臺數據</p>
-                    </div>
-                    <form id="admin-login-form" class="space-y-4 text-left">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">帳號</label>
-                            <input type="text" id="admin-username" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-teal transition-shadow" required placeholder="請輸入帳號">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">密碼</label>
-                            <input type="password" id="admin-password" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-teal transition-shadow" required placeholder="請輸入密碼">
-                        </div>
-                        <div id="login-error" class="hidden text-red-500 text-sm text-center bg-red-50 p-2 rounded-lg mt-2">
-                            帳號或密碼錯誤，請重試。
-                        </div>
-                        <button type="submit" class="w-full bg-brand-teal hover:bg-brand-blue text-white font-bold py-3 rounded-xl transition-colors mt-4 shadow-sm">
-                            登入系統
-                        </button>
-                    </form>
-                </div>
-
-                <!-- 數據總覽內容 (登入後顯示) -->
-                <div id="admin-content-view" class="hidden">
-                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
-                        <div>
-                            <span class="text-brand-teal font-bold tracking-wider uppercase text-xs border border-brand-teal px-2 py-1 rounded">管理員專用</span>
-                            <h2 class="mt-2 text-3xl font-semibold tracking-tight text-brand-appleText">後臺數據總覽</h2>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="text-sm text-gray-500 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
-                                狀態：<span class="text-green-500 font-bold">● 即時連線中</span>
-                            </div>
-                            <button id="admin-logout-btn" class="text-sm text-red-500 bg-red-50 hover:bg-red-100 px-4 py-2 rounded-full shadow-sm border border-red-100 transition-colors font-medium">登出系統</button>
-                        </div>
-                    </div>
-
-                    <!-- KPI 卡片區塊 -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                        <!-- 卡片 1 -->
-                        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex flex-col justify-between">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-gray-500 font-medium text-sm">累積電子報訂閱數</h3>
-                                <span class="bg-blue-100 text-blue-700 p-2 rounded-full text-lg leading-none">📧</span>
-                            </div>
-                            <div class="flex items-end gap-3">
-                                <span id="dash-subs-count" class="text-5xl font-semibold text-brand-appleText">128</span>
-                                <span class="text-sm text-green-500 font-medium mb-1">↑ 新增</span>
-                            </div>
-                        </div>
-                        <!-- 卡片 2 -->
-                        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex flex-col justify-between">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-gray-500 font-medium text-sm">AI 顧問生成次數</h3>
-                                <span class="bg-purple-100 text-purple-700 p-2 rounded-full text-lg leading-none">✨</span>
-                            </div>
-                            <div class="flex items-end gap-3">
-                                <span id="dash-ai-count" class="text-5xl font-semibold text-brand-appleText">342</span>
-                                <span class="text-sm text-green-500 font-medium mb-1">↑ 熱門</span>
-                            </div>
-                        </div>
-                        <!-- 卡片 3 -->
-                        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex flex-col justify-between">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-gray-500 font-medium text-sm">本月活躍付費會員</h3>
-                                <span class="bg-orange-100 text-orange-700 p-2 rounded-full text-lg leading-none">🏃‍♂️</span>
-                            </div>
-                            <div class="flex items-end gap-3">
-                                <span class="text-5xl font-semibold text-brand-appleText">85</span>
-                                <span class="text-sm text-gray-400 font-medium mb-1">穩定</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 最新名單列表 -->
-                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-brand-appleGray">
-                            <h3 class="text-lg font-semibold text-brand-appleText">最新訂閱名單</h3>
-                            <button class="text-sm text-brand-appleLink hover:underline">匯出 CSV</button>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
-                                <thead>
-                                    <tr class="text-xs text-gray-400 border-b border-gray-100">
-                                        <th class="px-8 py-4 font-medium uppercase tracking-wider">電子郵件 (Email)</th>
-                                        <th class="px-8 py-4 font-medium uppercase tracking-wider">訂閱時間</th>
-                                        <th class="px-8 py-4 font-medium uppercase tracking-wider">狀態</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dash-subs-table" class="divide-y divide-gray-100">
-                                    <!-- 動態插入的資料會放在這裡 -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- 客服訊息管理區塊 -->
-                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mt-8">
-                        <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-brand-appleGray">
-                            <h3 class="text-lg font-semibold text-brand-appleText">客服訊息管理</h3>
-                        </div>
-                        <div class="p-8">
-                            <div id="admin-chat-list" class="space-y-6">
-                                <!-- 客服訊息將由 JS 動態生成於此 -->
-                            </div>
-                        </div>
-                    </div>
+        <!-- 關於我們 (About Us) -->
+        <section id="about" class="page-section hidden py-32 bg-white min-h-[80vh] flex flex-col justify-center relative overflow-hidden">
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+                <span class="text-[#0071e3] font-semibold tracking-wider uppercase text-sm mb-4 block">About VITA CORE</span>
+                <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText mb-8">
+                    我們相信，健康不該被盲目摸索。<br>它應該被精準計算與長期累積。
+                </h2>
+                <div class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto space-y-6 text-left md:text-center">
+                    <p>
+                        VITA CORE 誕生於一個簡單卻堅定的願景：將頂尖的科技數據與專業的個人化教練指導無縫結合。我們深知每個人在不同人生階段的需求皆獨一無二，因此摒棄傳統的一體適用法則，改以整體生活型態醫學為核心。
+                    </p>
+                    <p>
+                        透過獨家 AI 數據分析、精準醫療級檢測，以及專屬的活動追蹤儀表板，我們將您的運動與營養軌跡轉化為具體的科學指標。在 VITA CORE，健康管理將自然融入您的日常，我們致力於幫助您從被動應對走向主動預防，找回身心靈的極致平衡與強大核心。
+                    </p>
                 </div>
             </div>
+            <!-- 背景裝飾 -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-gray-50 to-gray-100 rounded-full blur-3xl -z-10 opacity-60"></div>
         </section>
 
-        <!-- AI 專屬健康顧問 (全螢幕獨立子網頁) -->
-        <section id="ai-consultant" class="page-section hidden py-24 bg-brand-appleGray min-h-[90vh]">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <span class="text-brand-teal font-semibold tracking-wider uppercase text-sm">Powered by Gemini ✨</span>
-                    <h2 class="mt-2 text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText">VITA AI 專屬教練</h2>
-                    <p class="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">告訴我們您的目標與狀態，讓頂級的 AI 健康顧問為您即時生成專屬的客製化計畫。</p>
-                </div>
-
-                <div class="bg-white rounded-3xl shadow-sm p-8 md:p-12 border border-gray-100">
-                    <form id="ai-form" class="space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <!-- 目標選擇 -->
-                            <div>
-                                <label for="user-goal" class="block text-sm font-semibold text-gray-700 mb-2">您的主要目標是？</label>
-                                <select id="user-goal" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-appleBlue transition-shadow appearance-none">
-                                    <option value="減脂瘦身與提升心肺">減脂瘦身與提升心肺</option>
-                                    <option value="增肌塑形與力量提升">增肌塑形與力量提升</option>
-                                    <option value="正念減壓與提升睡眠品質">正念減壓與提升睡眠品質</option>
-                                    <option value="增強核心穩定與柔軟度">增強核心穩定與柔軟度</option>
-                                </select>
-                            </div>
-                            <!-- 經驗等級 -->
-                            <div>
-                                <label for="user-level" class="block text-sm font-semibold text-gray-700 mb-2">您的運動經驗？</label>
-                                <select id="user-level" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-appleBlue transition-shadow appearance-none">
-                                    <option value="完全初學者">完全初學者</option>
-                                    <option value="中階訓練者 (每週運動1-2次)">中階訓練者 (每週運動1-2次)</option>
-                                    <option value="進階運動員 (每週運動3次以上)">進階運動員 (每週運動3次以上)</option>
-                                </select>
-                            </div>
-                            <!-- 新增：每週可用時間 -->
-                            <div>
-                                <label for="user-days" class="block text-sm font-semibold text-gray-700 mb-2">每週可運動天數？</label>
-                                <select id="user-days" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-appleBlue transition-shadow appearance-none">
-                                    <option value="1-2天 (週末戰士)">1-2天 (週末戰士)</option>
-                                    <option value="3-4天 (穩定規律)">3-4天 (穩定規律)</option>
-                                    <option value="5天以上 (極度自律)">5天以上 (極度自律)</option>
-                                </select>
-                            </div>
-                            <!-- 新增：每次時長 -->
-                            <div>
-                                <label for="user-duration" class="block text-sm font-semibold text-gray-700 mb-2">每次預計訓練時長？</label>
-                                <select id="user-duration" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-appleBlue transition-shadow appearance-none">
-                                    <option value="15-30分鐘 (高效濃縮)">15-30分鐘 (高效濃縮)</option>
-                                    <option value="30-60分鐘 (標準訓練)">30-60分鐘 (標準訓練)</option>
-                                    <option value="60分鐘以上 (完整鍛鍊)">60分鐘以上 (完整鍛鍊)</option>
-                                </select>
-                            </div>
-                            <!-- 新增：飲食偏好 -->
-                            <div>
-                                <label for="user-diet" class="block text-sm font-semibold text-gray-700 mb-2">您的飲食偏好？</label>
-                                <select id="user-diet" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-appleBlue transition-shadow appearance-none">
-                                    <option value="無特殊限制 (均衡飲食)">無特殊限制 (均衡飲食)</option>
-                                    <option value="彈性素食 / 蛋奶素">彈性素食 / 蛋奶素</option>
-                                    <option value="全植物性飲食 (Vegan)">全植物性飲食 (Vegan)</option>
-                                    <option value="低碳水 / 生酮飲食">低碳水 / 生酮飲食</option>
-                                    <option value="168 間歇性斷食">168 間歇性斷食</option>
-                                </select>
-                            </div>
-                            <!-- 新增：加強部位 -->
-                            <div>
-                                <label for="user-focus" class="block text-sm font-semibold text-gray-700 mb-2">最想加強的重點部位？</label>
-                                <select id="user-focus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-appleBlue transition-shadow appearance-none">
-                                    <option value="全身均衡發展">全身均衡發展</option>
-                                    <option value="核心與腹部線條">核心與腹部線條</option>
-                                    <option value="下肢與臀腿力量">下肢與臀腿力量</option>
-                                    <option value="上肢與背部厚度">上肢與背部厚度</option>
-                                    <option value="心肺與體能耐力">心肺與體能耐力</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="pt-4 flex justify-center">
-                            <button type="submit" id="ai-submit-btn" class="bg-brand-appleBlue hover:bg-brand-appleBlueHover text-white font-semibold rounded-full px-8 py-3 transition-all transform hover:scale-105 flex items-center gap-2">
-                                <span>✨ 產生專屬計畫</span>
-                            </button>
-                        </div>
-                    </form>
-
-                    <!-- 載入中動畫 -->
-                    <div id="ai-loading" class="hidden mt-12 text-center">
-                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-brand-appleBlue mb-4"></div>
-                        <p class="text-gray-500 font-medium">VITA AI 正在為您量身打造專屬計畫...</p>
-                    </div>
-
-                    <!-- 結果展示區塊 -->
-                    <div id="ai-result-container" class="hidden mt-10 border-t border-gray-100 pt-8">
-                        <h3 class="text-2xl font-bold text-brand-appleText mb-6">您的專屬 VITA 藍圖</h3>
-                        <div id="ai-result" class="ai-content bg-gray-50 rounded-2xl p-6 md:p-8 border border-gray-100 shadow-inner">
-                            <!-- API 回傳的 HTML 會塞在這裡 -->
-                        </div>
-                        <div class="mt-8 text-center">
-                            <a href="#compare" class="inline-block bg-brand-teal hover:bg-brand-blue text-white font-semibold rounded-full px-8 py-3 transition-colors">
-                                選擇方案以落實計畫
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 核心價值 (子網頁) -->
-        <section id="core-values" class="page-section hidden py-24 bg-white">
+        <!-- 核心價值 (Core Values) -->
+        <section id="core-values" class="page-section hidden py-24 bg-brand-appleGray min-h-[90vh]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
-                    <span class="text-brand-teal font-semibold tracking-wider uppercase text-sm">三大支柱</span>
-                    <h2 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">核心價值主張</h2>
+                    <span class="text-[#028090] font-semibold tracking-wider uppercase text-sm">三大支柱</span>
+                    <h2 class="mt-2 text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText">核心價值主張</h2>
                     <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">以科學與數據為基礎，為您量身打造專屬的健康旅程。</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    <div class="bg-brand-light rounded-2xl p-8 border-t-4 border-brand-teal shadow-sm hover:shadow-md transition-shadow">
-                        <!-- 圖案改為正圓形背景 -->
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm">👤</div>
+                    <div class="bg-white rounded-3xl p-10 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm border border-gray-100">👤</div>
                         <h3 class="text-xl font-bold text-gray-900 mb-3">個性化教練指導</h3>
-                        <p class="text-gray-600">我們提供個人指導、塑形和量身定制的教練指導，確保每一次訓練都符合您的身體需求與目標。</p>
+                        <p class="text-gray-600 leading-relaxed">我們提供個人指導、塑形和量身定制的教練指導，確保每一次訓練都符合您的身體需求與目標。</p>
                     </div>
-                    <div class="bg-brand-light rounded-2xl p-8 border-t-4 border-brand-blue shadow-sm hover:shadow-md transition-shadow">
-                        <!-- 圖案改為正圓形背景 -->
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm">🔬</div>
+                    <div class="bg-white rounded-3xl p-10 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm border border-gray-100">🔬</div>
                         <h3 class="text-xl font-bold text-gray-900 mb-3">整體健康科學</h3>
-                        <p class="text-gray-600">結合整體健康科學，為生涯打造優質與健身之旅，涵蓋身體鍛鍊與心理健康的雙重平衡。</p>
+                        <p class="text-gray-600 leading-relaxed">結合整體健康科學，為生涯打造優質與健身之旅，涵蓋身體鍛鍊與心理健康的雙重平衡。</p>
                     </div>
-                    <div class="bg-brand-light rounded-2xl p-8 border-t-4 border-brand-dark shadow-sm hover:shadow-md transition-shadow">
-                        <!-- 圖案改為正圓形背景 -->
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm">📈</div>
+                    <div class="bg-white rounded-3xl p-10 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm border border-gray-100">📈</div>
                         <h3 class="text-xl font-bold text-gray-900 mb-3">數據驅動的進度</h3>
-                        <p class="text-gray-600">以數據驅動進度，透過科學化的數據追蹤與分析，為您精準打造最佳的訓練成效。</p>
+                        <p class="text-gray-600 leading-relaxed">以數據驅動進度，透過科學化的數據追蹤與分析，為您精準打造最佳的訓練成效。</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 服務項目 (保留隱藏結構，內容移至 Mega Menu) -->
-        <section id="services" class="page-section hidden py-24 bg-gray-50">
+        <!-- 專屬健康儀表板 -->
+        <section id="dashboard" class="page-section hidden py-24 min-h-screen bg-white">
+            <div class="max-w-5xl mx-auto px-6">
+                <header class="mb-12 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h2 class="text-4xl font-semibold tracking-tight text-brand-appleText">專屬健康儀表板</h2>
+                        <p class="mt-2 text-gray-500">今日活動概況，持續保持完美狀態。</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 px-4 py-2 bg-gray-50 border border-gray-100 rounded-full text-sm font-medium text-gray-600">
+                        訪客 ID: <span id="dash-visitor-id" class="font-mono text-[#028090]">載入中...</span>
+                    </div>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="relative w-full max-w-[350px] mx-auto aspect-square bg-black rounded-[3rem] p-8 shadow-2xl flex items-center justify-center">
+                        <svg class="w-full h-full" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="80" stroke="#330000" stroke-width="16" fill="none" />
+                            <circle cx="100" cy="100" r="60" stroke="#003300" stroke-width="16" fill="none" />
+                            <circle cx="100" cy="100" r="40" stroke="#001133" stroke-width="16" fill="none" />
+                            
+                            <circle id="ring-move" class="progress-ring__circle drop-shadow-md" cx="100" cy="100" r="80" stroke="#ff3b30" stroke-width="16" fill="none" stroke-dasharray="502.6" stroke-dashoffset="502.6" />
+                            <circle id="ring-exercise" class="progress-ring__circle drop-shadow-md" cx="100" cy="100" r="60" stroke="#34c759" stroke-width="16" fill="none" stroke-dasharray="377" stroke-dashoffset="377" />
+                            <circle id="ring-mind" class="progress-ring__circle drop-shadow-md" cx="100" cy="100" r="40" stroke="#00c6ff" stroke-width="16" fill="none" stroke-dasharray="251.3" stroke-dashoffset="251.3" />
+                        </svg>
+                        
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white pointer-events-none">
+                            <span class="text-sm text-gray-400 font-semibold tracking-widest">今日達成率</span>
+                            <span id="ring-total-percent" class="text-4xl font-bold tracking-tighter mt-1">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 flex justify-between items-center hover:shadow-md transition">
+                            <div>
+                                <h3 class="text-[#ff3b30] font-bold text-lg">活動 (Move)</h3>
+                                <p class="text-gray-500 text-sm">目標 500 大卡 <span id="text-move" class="font-mono text-brand-appleText font-bold ml-2">0</span> / 500</p>
+                            </div>
+                            <button onclick="addProgress('move', 100)" class="w-10 h-10 bg-white rounded-full shadow-sm border flex items-center justify-center text-[#ff3b30] hover:bg-[#ff3b30] hover:text-white transition font-bold text-xl">＋</button>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 flex justify-between items-center hover:shadow-md transition">
+                            <div>
+                                <h3 class="text-[#34c759] font-bold text-lg">鍛鍊 (Exercise)</h3>
+                                <p class="text-gray-500 text-sm">目標 30 分鐘 <span id="text-exercise" class="font-mono text-brand-appleText font-bold ml-2">0</span> / 30</p>
+                            </div>
+                            <button onclick="addProgress('exercise', 10)" class="w-10 h-10 bg-white rounded-full shadow-sm border flex items-center justify-center text-[#34c759] hover:bg-[#34c759] hover:text-white transition font-bold text-xl">＋</button>
+                        </div>
+
+                        <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 flex justify-between items-center hover:shadow-md transition">
+                            <div>
+                                <h3 class="text-[#00c6ff] font-bold text-lg">正念 (Mindfulness)</h3>
+                                <p class="text-gray-500 text-sm">目標 15 分鐘 <span id="text-mind" class="font-mono text-brand-appleText font-bold ml-2">0</span> / 15</p>
+                            </div>
+                            <button onclick="addProgress('mind', 5)" class="w-10 h-10 bg-white rounded-full shadow-sm border flex items-center justify-center text-[#00c6ff] hover:bg-[#00c6ff] hover:text-white transition font-bold text-xl">＋</button>
+                        </div>
+                        
+                        <div class="pt-4 flex gap-4">
+                            <button onclick="resetProgress()" class="text-sm text-gray-400 hover:text-gray-800 underline">重置今日數據</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 運動選項 (Services) -->
+        <section id="services" class="page-section hidden py-24 bg-brand-appleGray min-h-[90vh]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">探索運動與服務選項</h2>
+                    <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText">探索運動與服務選項</h2>
                     <p class="mt-4 text-xl text-gray-500">全方位的身心靈提升方案，從熱門課程到專屬諮詢一應俱全。</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                        <div class="bg-brand-teal px-6 py-4">
-                            <h3 class="text-2xl font-bold text-white flex items-center gap-2">🏋️‍♂️ 健身與運動項目</h3>
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-[#1d1d1f] px-8 py-6">
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">🏋️‍♂️ 健身與運動項目</h3>
                         </div>
-                        <div class="p-6 space-y-6">
-                            <div class="border-l-4 border-orange-400 pl-4">
-                                <h4 class="text-lg font-bold text-brand-dark">個人訓練</h4>
-                                <p class="text-gray-600 mt-1">專屬教練一對一指導，為您量身打造專屬的進化歷程。</p>
+                        <div class="p-8 space-y-8">
+                            <div class="border-l-4 border-[#028090] pl-5">
+                                <h4 class="text-lg font-bold text-brand-appleText">個人訓練</h4>
+                                <p class="text-gray-600 mt-2 leading-relaxed">專屬教練一對一指導，透過精準的數據分析，為您量身打造專屬的進化歷程。</p>
                             </div>
-                            <div class="border-l-4 border-orange-400 pl-4">
-                                <h4 class="text-lg font-bold text-brand-dark">團體課程</h4>
-                                <p class="text-gray-600 mt-1">實踐健康平權科學，在群體互動中體驗健康之旅的動力。包含：瑜伽、皮拉提斯、HIIT等熱門選擇。</p>
+                            <div class="border-l-4 border-[#028090] pl-5">
+                                <h4 class="text-lg font-bold text-brand-appleText">團體課程</h4>
+                                <p class="text-gray-600 mt-2 leading-relaxed">實踐健康平權科學，在群體互動中體驗健康之旅的動力。包含：重量訓練、瑜伽、皮拉提斯、HIIT等。</p>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-                        <div class="bg-brand-blue px-6 py-4">
-                            <h3 class="text-2xl font-bold text-white flex items-center gap-2">🧘‍♀️ 恢復與健康項目</h3>
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-[#028090] px-8 py-6">
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">🧘‍♀️ 恢復與健康項目</h3>
                         </div>
-                        <div class="p-6 space-y-6">
-                            <div class="border-l-4 border-orange-400 pl-4">
-                                <h4 class="text-lg font-bold text-brand-dark">營養計畫</h4>
-                                <p class="text-gray-600 mt-1">專業的營養計畫輔導，豐富能量，為整體健康提供後盾。</p>
+                        <div class="p-8 space-y-8">
+                            <div class="border-l-4 border-[#1d1d1f] pl-5">
+                                <h4 class="text-lg font-bold text-brand-appleText">營養計畫</h4>
+                                <p class="text-gray-600 mt-2 leading-relaxed">專業的營養計畫輔導，提供低碳、生酮或全植物性選擇，為整體健康提供強大後盾。</p>
                             </div>
-                            <div class="border-l-4 border-orange-400 pl-4">
-                                <h4 class="text-lg font-bold text-brand-dark">正念冥想</h4>
-                                <p class="text-gray-600 mt-1">協助您減輕壓力，找回正念心態，享受身心靈的平衡與平靜。</p>
+                            <div class="border-l-4 border-[#1d1d1f] pl-5">
+                                <h4 class="text-lg font-bold text-brand-appleText">正念冥想</h4>
+                                <p class="text-gray-600 mt-2 leading-relaxed">專屬靜心空間與引導課程，協助您減輕壓力，找回正念心態，享受身心靈的極致平衡。</p>
                             </div>
                         </div>
                     </div>
@@ -518,243 +323,166 @@
             </div>
         </section>
 
-        <!-- 比較方案 (Apple 風格比較表子網頁) -->
-        <section id="compare" class="page-section hidden py-24 bg-brand-appleGray">
+        <!-- 比較方案 (Compare) -->
+        <section id="compare" class="page-section hidden py-24 bg-white min-h-[90vh]">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText">哪種方案適合你？</h2>
                     <p class="mt-4 text-xl text-gray-500">比較 VITA CORE 的各項專屬服務，找到最完美的健康解答。</p>
                 </div>
 
-                <!-- 表格容器加上 x 軸滾動，確保手機版不會變形 -->
                 <div class="overflow-x-auto pb-8">
-                    <table class="w-full text-center border-collapse min-w-[800px]">
-                        <!-- 關鍵：黏性標題列 -->
-                        <thead class="sticky top-16 bg-brand-appleGray z-30 shadow-sm border-b border-gray-200 transition-all">
+                    <table class="w-full text-center border-collapse min-w-[800px] bg-brand-appleGray rounded-3xl overflow-hidden shadow-sm border border-gray-100">
+                        <thead class="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th class="w-1/4 p-4 text-left font-semibold text-gray-900 border-b-2 border-transparent">服務與規格</th>
-                                <th class="w-1/4 p-4 border-b-2 border-transparent">
+                                <th class="w-1/4 p-6 text-left font-semibold text-gray-900">服務與規格</th>
+                                <th class="w-1/4 p-6 border-l border-gray-200">
                                     <h3 class="text-2xl font-semibold text-brand-appleText">基礎團體</h3>
                                     <p class="text-sm text-gray-500 mt-1 font-normal">適合剛起步的你</p>
-                                    <div class="mt-4"><a href="#cta" class="bg-brand-appleBlue hover:bg-brand-appleBlueHover text-white px-5 py-1.5 rounded-full text-sm transition-colors">訂閱</a></div>
                                 </th>
-                                <th class="w-1/4 p-4 border-b-2 border-transparent border-l border-gray-200">
+                                <th class="w-1/4 p-6 border-l border-gray-200">
                                     <h3 class="text-2xl font-semibold text-brand-appleText">進階個人</h3>
                                     <p class="text-sm text-gray-500 mt-1 font-normal">專屬教練一對一</p>
-                                    <div class="mt-4"><a href="#cta" class="bg-brand-appleBlue hover:bg-brand-appleBlueHover text-white px-5 py-1.5 rounded-full text-sm transition-colors">訂閱</a></div>
                                 </th>
-                                <th class="w-1/4 p-4 border-b-2 border-transparent border-l border-gray-200">
-                                    <h3 class="text-2xl font-semibold text-brand-appleText">尊榮核心</h3>
+                                <th class="w-1/4 p-6 border-l border-gray-200">
+                                    <h3 class="text-2xl font-semibold text-[#028090]">尊榮核心</h3>
                                     <p class="text-sm text-gray-500 mt-1 font-normal">全方位進化</p>
-                                    <div class="mt-4"><a href="#cta" class="bg-brand-appleBlue hover:bg-brand-appleBlueHover text-white px-5 py-1.5 rounded-full text-sm transition-colors">訂閱</a></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-300 bg-white/50 backdrop-blur-sm">
-                            
-                            <!-- 類別 1: 核心訓練與追蹤 -->
-                            <tr class="bg-gray-50/80">
+                        <tbody class="divide-y divide-gray-100">
+                            <tr class="bg-gray-50/50">
                                 <th colspan="4" class="p-4 text-left text-lg font-bold text-brand-appleText border-y border-gray-200">核心訓練與科學追蹤</th>
                             </tr>
                             <tr>
                                 <td class="p-6 text-left font-semibold text-gray-900">教練指導模式</td>
-                                <td class="p-6 text-gray-600">無限制參與開放團體課程</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">每週 2 堂一對一專屬訓練</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">專屬教練全天候無限制預約</td>
+                                <td class="p-6 text-gray-600 border-l border-gray-100">無限制參與開放團體課程</td>
+                                <td class="p-6 text-gray-900 font-medium border-l border-gray-100">每週 2 堂一對一專屬訓練</td>
+                                <td class="p-6 text-[#028090] font-bold border-l border-gray-100">專屬教練全天候無限制預約</td>
                             </tr>
                             <tr>
                                 <td class="p-6 text-left font-semibold text-gray-900">體能與科學檢測</td>
-                                <td class="p-6 text-gray-600">基礎 InBody 量測</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">每月動態評估與體態分析</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">深度醫療級科學檢測 (VO2 Max等)</td>
+                                <td class="p-6 text-gray-600 border-l border-gray-100">基礎 InBody 量測</td>
+                                <td class="p-6 text-gray-900 font-medium border-l border-gray-100">每月動態評估與體態分析</td>
+                                <td class="p-6 text-[#028090] font-bold border-l border-gray-100">深度醫療級科學檢測</td>
+                            </tr>
+                            <tr class="bg-gray-50/50">
+                                <th colspan="4" class="p-4 text-left text-lg font-bold text-brand-appleText border-y border-gray-200">健康與恢復</th>
                             </tr>
                             <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">數據驅動追蹤</td>
-                                <td class="p-6 text-gray-600">通用 APP 紀錄</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">專屬教練每月進度報表</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">即時穿戴裝置同步與 AI 解析</td>
+                                <td class="p-6 text-left font-semibold text-gray-900">營養計畫</td>
+                                <td class="p-6 text-gray-600 border-l border-gray-100">線上通用指南</td>
+                                <td class="p-6 text-gray-900 font-medium border-l border-gray-100">標準菜單規劃</td>
+                                <td class="p-6 text-[#028090] font-bold border-l border-gray-100">三餐即時監控與客製</td>
                             </tr>
-
-                            <!-- 類別 2: 健康、營養與恢復 -->
-                            <tr class="bg-gray-50/80">
-                                <th colspan="4" class="p-4 text-left text-lg font-bold text-brand-appleText border-y border-gray-200">身心健康與頂級恢復</th>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">營養計畫輔導</td>
-                                <td class="p-6 text-gray-600">線上通用營養指南</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">營養師標準菜單規劃</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">專屬營養師三餐即時客製監控</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">正念與冥想空間</td>
-                                <td class="p-6 text-gray-600">每月 1 次團體體驗</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">每月 4 次專屬靜心課程</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">全天候尊榮靜心室獨立使用</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">物理治療與恢復按摩</td>
-                                <td class="p-6 text-gray-600">—</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">單次加購享 8 折優惠</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">每月包含 2 次深層筋膜理療</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">高科技恢復設備</td>
-                                <td class="p-6 text-gray-600">基礎伸展區</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">筋膜槍與紅外線桑拿</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">高壓氧艙與冷熱交替恢復池</td>
-                            </tr>
-
-                            <!-- 類別 3: 硬體與權益 -->
-                            <tr class="bg-gray-50/80">
-                                <th colspan="4" class="p-4 text-left text-lg font-bold text-brand-appleText border-y border-gray-200">專屬硬體與尊榮權益</th>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">場館通行權限</td>
-                                <td class="p-6 text-gray-600">單一指定場館</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">全台直營場館通用</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">全球 VITA CORE 聯盟通行</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">智慧穿戴裝置</td>
-                                <td class="p-6 text-gray-600">支援個人 Apple Watch</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">免費配發 VITA Band</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">免費配發頂規 VITA Watch Pro</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">私人置物櫃與洗衣服務</td>
-                                <td class="p-6 text-gray-600">每日隨機置物櫃</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">專屬固定置物櫃</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">專屬置物櫃及每日運動服洗滌</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 text-left font-semibold text-gray-900">專屬貴賓停車位</td>
-                                <td class="p-6 text-gray-600">—</td>
-                                <td class="p-6 text-gray-900 font-medium border-l border-gray-200">—</td>
-                                <td class="p-6 text-brand-teal font-bold border-l border-gray-200">包含 VIP 保留車位</td>
-                            </tr>
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- 客戶服務 (動態跑馬燈版本) -->
-        <section id="testimonials" class="page-section hidden py-24 bg-white text-gray-900 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
-                <h2 class="text-3xl font-extrabold sm:text-4xl">客戶服務與故事</h2>
-                <p class="mt-4 text-gray-500 max-w-2xl mx-auto">聽聽那些已經在 VITA CORE 完成蛻變的學員們怎麼說。</p>
+        <!-- AI 專屬健康顧問 -->
+        <section id="ai-consultant" class="page-section hidden py-24 bg-brand-appleGray min-h-[90vh]">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-brand-appleBlue font-semibold tracking-wider uppercase text-sm">Powered by Gemini ✨</span>
+                    <h2 class="mt-2 text-4xl md:text-5xl font-semibold tracking-tighter text-brand-appleText">VITA AI 專屬教練</h2>
+                    <p class="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">設定您的 6 大維度目標，讓頂級 AI 即時生成您的專屬進化藍圖。</p>
+                </div>
+
+                <div class="bg-white rounded-[2rem] shadow-sm p-8 md:p-12 border border-gray-100">
+                    <form id="ai-form" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">主要目標</label>
+                                <select id="user-goal" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-appleBlue outline-none">
+                                    <option>減脂瘦身與提升心肺</option><option>增肌塑形與力量提升</option><option>正念減壓與提升睡眠品質</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">運動經驗</label>
+                                <select id="user-level" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-appleBlue outline-none">
+                                    <option>完全初學者</option><option>中階訓練者</option><option>進階運動員</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">每週可運動天數</label>
+                                <select id="user-days" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-appleBlue outline-none">
+                                    <option>1-2天 (週末戰士)</option><option>3-4天 (穩定規律)</option><option>5天以上 (極度自律)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">每次預計訓練時長</label>
+                                <select id="user-duration" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-appleBlue outline-none">
+                                    <option>15-30分鐘</option><option>30-60分鐘</option><option>60分鐘以上</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">飲食偏好</label>
+                                <select id="user-diet" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-appleBlue outline-none">
+                                    <option>無特殊限制</option><option>全植物性飲食 (Vegan)</option><option>低碳水 / 生酮</option><option>168 斷食</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">重點加強部位</label>
+                                <select id="user-focus" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-appleBlue outline-none">
+                                    <option>全身均衡</option><option>核心與腹部</option><option>下肢與臀腿</option><option>上肢與背部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pt-4 flex justify-center">
+                            <button type="submit" id="ai-submit-btn" class="bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold rounded-full px-8 py-3 transition-colors shadow-sm">
+                                ✨ 產生專屬計畫
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="ai-loading" class="hidden mt-12 text-center">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-brand-appleBlue mb-4"></div>
+                        <p class="text-gray-500">Gemini 正在為您量身打造...</p>
+                    </div>
+
+                    <div id="ai-result-container" class="hidden mt-10 border-t border-gray-100 pt-8">
+                        <h3 class="text-2xl font-bold text-brand-appleText mb-6">您的專屬藍圖</h3>
+                        <div id="ai-result" class="ai-content bg-brand-appleGray rounded-2xl p-6 md:p-8 border border-gray-100 shadow-inner"></div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- 無縫跑馬燈容器 -->
+        <!-- 客戶評價 -->
+        <section id="testimonials" class="page-section hidden py-24 bg-white overflow-hidden">
+            <div class="text-center mb-12"><h2 class="text-4xl font-semibold tracking-tighter">真實故事。</h2></div>
             <div class="relative w-full py-8">
-                <!-- 左右兩側漸層羽化遮罩，增加高級感 -->
-                <div class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-                <div class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
-
-                <!-- 跑馬燈軌道 -->
-                <div class="animate-marquee flex">
-                    <!-- 第一組卡片 -->
-                    <div class="flex gap-8 pr-8 min-w-max">
-                        <!-- 卡片 1 -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👩🏻‍💼</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">王小姐 (王Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">企業經理</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">VITA CORE 的客製化訓練與營養計畫，讓我在高壓的工作環境中，依然能保持充沛的活力與最佳體態。這是我做過最好的投資！</p>
+                <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+                <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
+                <div class="animate-marquee flex gap-8">
+                    <div class="flex gap-8 min-w-max pr-8">
+                        <div class="w-[350px] bg-brand-appleGray rounded-3xl p-8 border border-gray-100">
+                            <h4 class="font-bold text-lg">李先生 👨🏻‍💻</h4><p class="text-sm text-brand-appleBlue mb-4">工程師</p>
+                            <p class="text-gray-700">"健康儀表板的圓環設計太完美了！讓我每天都有動力把它填滿。"</p>
                         </div>
-                        <!-- 卡片 2 -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👨🏻‍💻</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">李先生 (李Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">軟體工程師</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">我非常喜歡數據驅動的訓練方式，它讓我清楚看見自己每一次的進步，團隊的正念課程也大幅改善了我的長期睡眠品質。</p>
+                        <div class="w-[350px] bg-brand-appleGray rounded-3xl p-8 border border-gray-100">
+                            <h4 class="font-bold text-lg">王小姐 👩🏻‍💼</h4><p class="text-sm text-brand-appleBlue mb-4">企業經理</p>
+                            <p class="text-gray-700">"AI 顧問給的生酮飲食菜單非常精準，替我省下大量時間。"</p>
                         </div>
-                        <!-- 卡片 3 -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👨🏻‍🦳</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">陳先生 (陳Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">退休人士</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">自從加入了尊榮核心方案，專屬教練與營養師的細心照顧讓我找回了年輕時的活力，高科技的恢復設備更是大大舒緩了我的陳年腰痛。</p>
-                        </div>
-                        <!-- 卡片 4 -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👩🏻‍🎓</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">林小姐 (林Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">大學生</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">團體課程的氣氛超級棒！教練非常專業，讓完全沒有重訓經驗的我也能安心且正確地鍛鍊，現在我每週都期待來 VITA CORE 報到。</p>
+                        <div class="w-[350px] bg-brand-appleGray rounded-3xl p-8 border border-gray-100">
+                            <h4 class="font-bold text-lg">陳大姊 👩🏻‍🦳</h4><p class="text-sm text-brand-appleBlue mb-4">退休人士</p>
+                            <p class="text-gray-700">"客服回覆超快，幫助我這個老人家學會怎麼預約課程！"</p>
                         </div>
                     </div>
-                    
-                    <!-- 第二組卡片 (為了無縫接軌而複製一份完全相同的內容) -->
-                    <div class="flex gap-8 pr-8 min-w-max" aria-hidden="true">
-                        <!-- 卡片 1 (Clone) -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👩🏻‍💼</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">王小姐 (王Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">企業經理</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">VITA CORE 的客製化訓練與營養計畫，讓我在高壓的工作環境中，依然能保持充沛的活力與最佳體態。這是我做過最好的投資！</p>
+                    <div class="flex gap-8 min-w-max pr-8" aria-hidden="true">
+                        <div class="w-[350px] bg-brand-appleGray rounded-3xl p-8 border border-gray-100">
+                            <h4 class="font-bold text-lg">李先生 👨🏻‍💻</h4><p class="text-sm text-brand-appleBlue mb-4">工程師</p>
+                            <p class="text-gray-700">"健康儀表板的圓環設計太完美了！讓我每天都有動力把它填滿。"</p>
                         </div>
-                        <!-- 卡片 2 (Clone) -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👨🏻‍💻</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">李先生 (李Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">軟體工程師</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">我非常喜歡數據驅動的訓練方式，它讓我清楚看見自己每一次的進步，團隊的正念課程也大幅改善了我的長期睡眠品質。</p>
+                        <div class="w-[350px] bg-brand-appleGray rounded-3xl p-8 border border-gray-100">
+                            <h4 class="font-bold text-lg">王小姐 👩🏻‍💼</h4><p class="text-sm text-brand-appleBlue mb-4">企業經理</p>
+                            <p class="text-gray-700">"AI 顧問給的生酮飲食菜單非常精準，替我省下大量時間。"</p>
                         </div>
-                        <!-- 卡片 3 (Clone) -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👨🏻‍🦳</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">陳先生 (陳Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">退休人士</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">自從加入了尊榮核心方案，專屬教練與營養師的細心照顧讓我找回了年輕時的活力，高科技的恢復設備更是大大舒緩了我的陳年腰痛。</p>
-                        </div>
-                        <!-- 卡片 4 (Clone) -->
-                        <div class="w-[320px] md:w-[400px] bg-brand-light rounded-3xl p-8 relative shadow-sm hover:shadow-md transition-shadow flex-shrink-0 text-left whitespace-normal cursor-default border border-gray-100">
-                            <div class="absolute top-4 right-6 text-6xl text-brand-teal opacity-20">"</div>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm border border-gray-100">👩🏻‍🎓</div>
-                                <div>
-                                    <h4 class="text-xl font-bold">林小姐 (林Ｏ)</h4>
-                                    <p class="text-brand-teal text-sm font-semibold">大學生</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 text-[17px] leading-relaxed">團體課程的氣氛超級棒！教練非常專業，讓完全沒有重訓經驗的我也能安心且正確地鍛鍊，現在我每週都期待來 VITA CORE 報到。</p>
+                        <div class="w-[350px] bg-brand-appleGray rounded-3xl p-8 border border-gray-100">
+                            <h4 class="font-bold text-lg">陳大姊 👩🏻‍🦳</h4><p class="text-sm text-brand-appleBlue mb-4">退休人士</p>
+                            <p class="text-gray-700">"客服回覆超快，幫助我這個老人家學會怎麼預約課程！"</p>
                         </div>
                     </div>
                 </div>
@@ -762,261 +490,157 @@
         </section>
     </main>
 
-    <!-- 訂閱/互動區塊 (跨子網頁共用) -->
-    <section id="cta" class="py-20 bg-brand-dark text-white text-center">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold mb-4">開始您的核心轉變</h2>
-            <p class="mb-8 text-brand-light opacity-80">留下您的聯絡方式，獲取最新的健康資訊與專屬體驗計畫。</p>
-            <form id="subscribe-form" class="flex flex-col sm:flex-row gap-3 justify-center max-w-lg mx-auto">
-                <input id="subscribe-email" type="email" placeholder="請輸入您的電子郵件" required class="px-5 py-3 rounded-full text-gray-900 w-full focus:outline-none focus:ring-2 focus:ring-brand-teal">
-                <button type="submit" class="bg-brand-teal hover:bg-brand-blue text-white font-bold py-3 px-8 rounded-full transition-colors w-full sm:w-auto flex-shrink-0">
-                    立即訂閱
-                </button>
+    <!-- 右下角線上客服 (湖水藍按鈕) -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="chat-widget-panel" class="hidden bg-white w-80 rounded-2xl shadow-2xl border border-gray-100 flex-col overflow-hidden mb-4">
+            <div class="bg-gray-50 px-4 py-3 border-b flex justify-between items-center">
+                <span class="font-semibold text-sm flex items-center gap-2"><div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>線上客服</span>
+                <button id="close-chat-btn" class="text-gray-400 hover:text-black">✕</button>
+            </div>
+            <div id="chat-messages" class="p-4 h-64 overflow-y-auto flex flex-col gap-3 bg-white text-sm"></div>
+            <form id="chat-form" class="p-3 border-t bg-gray-50 flex gap-2">
+                <input type="text" id="chat-input" class="flex-1 rounded-full px-3 py-1.5 border outline-none focus:border-[#028090]" placeholder="輸入訊息..." required autocomplete="off">
+                <button type="submit" class="bg-[#028090] text-white rounded-full p-2 w-8 h-8 flex items-center justify-center">↑</button>
             </form>
         </div>
-    </section>
-
-    <!-- 頁腳 (跨子網頁共用) -->
-    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <!-- 品牌資訊 -->
-                <div class="col-span-1 md:col-span-2">
-                    <div class="flex items-center gap-3 mb-4">
-                        <img src="https://res.cloudinary.com/dlyudupfs/image/upload/v1781062445/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88-3_hdrk9b.png" alt="VITA CORE Logo" class="h-10 bg-white p-1 rounded">
-                        <div>
-                            <h3 class="text-white text-xl font-bold">VITA CORE</h3>
-                            <p class="text-xs text-brand-teal">PREMIUM WELLNESS & FITNESS</p>
-                        </div>
-                    </div>
-                    <p class="text-sm">我們致力於將健康平權與科學結合，為您打造專屬的優質健康與健身之旅。</p>
-                </div>
-                
-                <!-- 快速連結 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">快速連結</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#about" class="hover:text-brand-teal transition-colors">關於我們</a></li>
-                        <li><a href="#core-values" class="hover:text-brand-teal transition-colors">核心價值</a></li>
-                        <li><a href="#services" class="hover:text-brand-teal transition-colors">運動選項</a></li>
-                        <li><a href="#compare" class="hover:text-brand-teal transition-colors">比較方案</a></li>
-                        <li><a href="#ai-consultant" class="hover:text-brand-teal transition-colors">AI 顧問 ✨</a></li>
-                        <li class="pt-2"><a href="#admin-dashboard" class="text-gray-500 hover:text-white transition-colors">🔒 管理員後臺</a></li>
-                    </ul>
-                </div>
-
-                <!-- 政策與社交 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">法律與社交</h4>
-                    <ul class="space-y-2 text-sm mb-4">
-                        <li><a href="#" class="hover:text-brand-teal transition-colors">隱私與條款</a></li>
-                        <li><a href="#" class="hover:text-brand-teal transition-colors">證書標誌</a></li>
-                    </ul>
-                    <div class="flex gap-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">FB</a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">IG</a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">IN</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
-                <p>Copyright © VITA CORE Wel. Ltd. All rights reserved.</p>
-                <p class="mt-2 md:mt-0">Designed with modern wellness in mind.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- 右下角懸浮球 (線上客服) -->
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-        <!-- 聊天面板 (預設隱藏) -->
-        <div id="chat-widget-panel" class="hidden bg-white w-80 max-w-[calc(100vw-2rem)] rounded-2xl shadow-2xl border border-gray-100 flex-col overflow-hidden mb-4 transition-all origin-bottom-right">
-            <div class="bg-brand-appleGray px-4 py-3 border-b border-gray-100 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <h3 class="font-semibold text-brand-appleText text-sm">線上客服</h3>
-                </div>
-                <button id="close-chat-btn" class="text-gray-400 hover:text-gray-700">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div id="chat-messages" class="p-4 h-64 overflow-y-auto flex flex-col gap-3 bg-gray-50 text-sm">
-                <!-- 聊天對話將顯示於此 -->
-            </div>
-            <div class="p-3 border-t border-gray-100 bg-white">
-                <form id="chat-form" class="flex gap-2">
-                    <input type="text" id="chat-input" class="flex-1 bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-brand-teal text-sm" placeholder="輸入訊息..." required autocomplete="off">
-                    <button type="submit" class="bg-brand-teal hover:bg-brand-blue text-white rounded-full p-2 transition-colors flex items-center justify-center shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- 提示文字 (Hover時顯示) -->
-        <div class="absolute right-16 bottom-3 bg-white text-gray-800 text-xs px-3 py-1.5 rounded-lg shadow-md opacity-0 transition-opacity duration-300 pointer-events-none whitespace-nowrap" id="chat-tooltip">
-            需要協助嗎？
-        </div>
-        
-        <!-- 圓形懸浮按鈕 -->
-        <button id="chat-toggle-btn" onmouseenter="document.getElementById('chat-tooltip').style.opacity='1'" onmouseleave="document.getElementById('chat-tooltip').style.opacity='0'" class="w-14 h-14 bg-gradient-to-tr from-brand-teal to-brand-appleBlue text-white rounded-full flex items-center justify-center animate-float-ball border-2 border-white/50 backdrop-blur-sm cursor-pointer z-50 transition-transform hover:scale-110 shadow-lg">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
-            </svg>
+        <button id="chat-toggle-btn" class="w-14 h-14 bg-[#028090] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition cursor-pointer">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
         </button>
     </div>
 
-    <script>
-        // === 簡易應用程式狀態 (單次 Session) ===
-        const appState = {
-            totalSubs: 128,
-            aiUses: 342,
-            recentSubs: [
-                { email: 'wang.wei.manager@example.com', date: '2026/06/14', status: '已啟用' },
-                { email: 'li.zhi.eng@example.com', date: '2026/06/13', status: '已啟用' }
-            ],
-            messages: [
-                { id: 1, user: '訪客', text: '請問 VITA Watch 是防水的嗎？', reply: '您好，VITA Watch 具備 50 公尺防水功能，游泳時也能安心配戴！', status: '已回覆', date: '09:30' },
-                { id: 2, user: '訪客', text: '我想了解進階個人方案的收費。', reply: '', status: '未回覆', date: '10:15' }
-            ]
-        };
+    <!-- Firebase 與前端邏輯 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // 管理員回覆訊息的全域函數
-        window.adminReplyMessage = function(id) {
-            const inputEl = document.getElementById(`admin-reply-input-${id}`);
-            if (inputEl && inputEl.value.trim() !== '') {
-                const msg = appState.messages.find(m => m.id === id);
-                if (msg) {
-                    msg.reply = inputEl.value.trim();
-                    msg.status = '已回覆';
-                    updateDashboardUI(); // 更新後台與前台 UI
-                }
-            }
-        };
+        let db, auth, currentUser, visitorId;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        try {
+            const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+        } catch(e) { console.warn("Firebase 錯誤", e); }
 
-        // 渲染前端顧客聊天室畫面
-        function renderCustomerChat() {
-            const chatBox = document.getElementById('chat-messages');
-            if(!chatBox) return;
-            
-            chatBox.innerHTML = `
-                <div class="flex flex-col gap-1 items-start">
-                    <div class="bg-white border border-gray-200 text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2 shadow-sm max-w-[85%] text-sm">
-                        您好！我是 VITA CORE 專員，請問有什麼我可以協助您的嗎？
-                    </div>
-                </div>
-            `;
-
-            appState.messages.forEach(msg => {
-                chatBox.innerHTML += `
-                    <div class="flex flex-col gap-1 items-end mt-2">
-                        <div class="bg-brand-appleBlue text-white rounded-2xl rounded-tr-sm px-4 py-2 shadow-sm max-w-[85%] text-sm">
-                            ${msg.text}
-                        </div>
-                        <span class="text-[10px] text-gray-400">${msg.date}</span>
-                    </div>
-                `;
-                if (msg.status === '已回覆' && msg.reply) {
-                    chatBox.innerHTML += `
-                        <div class="flex flex-col gap-1 items-start mt-2">
-                            <div class="bg-white border border-gray-200 text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2 shadow-sm max-w-[85%] text-sm">
-                                ${msg.reply}
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        // 更新後臺儀表板 UI
-        function updateDashboardUI() {
-            // 更新數字卡片
-            const subsCountEl = document.getElementById('dash-subs-count');
-            const aiCountEl = document.getElementById('dash-ai-count');
-            if (subsCountEl) subsCountEl.textContent = appState.totalSubs;
-            if (aiCountEl) aiCountEl.textContent = appState.aiUses;
-
-            // 更新表格
-            const tableBody = document.getElementById('dash-subs-table');
-            if (tableBody) {
-                tableBody.innerHTML = '';
-                appState.recentSubs.forEach(sub => {
-                    tableBody.innerHTML += `
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-8 py-5 text-sm text-gray-900 font-medium">${sub.email}</td>
-                            <td class="px-8 py-5 text-sm text-gray-500">${sub.date}</td>
-                            <td class="px-8 py-5"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">${sub.status}</span></td>
-                        </tr>
-                    `;
-                });
-            }
-
-            // 更新管理員客服列表
-            const adminChatList = document.getElementById('admin-chat-list');
-            if (adminChatList) {
-                adminChatList.innerHTML = '';
-                if(appState.messages.length === 0) {
-                    adminChatList.innerHTML = '<p class="text-gray-500 text-sm">目前沒有客服訊息。</p>';
+        const initAuth = async () => {
+            if(!auth) return;
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
-                    // 最新訊息排在最上面
-                    const reversedMessages = [...appState.messages].reverse();
-                    reversedMessages.forEach(msg => {
-                        const isReplied = msg.status === '已回覆';
-                        const statusBadge = isReplied 
-                            ? `<span class="px-2 py-1 bg-green-100 text-green-700 text-[10px] rounded-full font-bold">已回覆</span>`
-                            : `<span class="px-2 py-1 bg-red-100 text-red-700 text-[10px] rounded-full font-bold">未回覆</span>`;
-                        
-                        let replyActionHTML = '';
-                        if (!isReplied) {
-                            replyActionHTML = `
-                                <div class="mt-3 flex gap-2">
-                                    <input type="text" id="admin-reply-input-${msg.id}" class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand-teal" placeholder="輸入回覆內容...">
-                                    <button onclick="adminReplyMessage(${msg.id})" class="bg-brand-teal text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-brand-blue transition-colors">傳送回覆</button>
-                                </div>
-                            `;
-                        } else {
-                            replyActionHTML = `
-                                <div class="mt-3 bg-gray-50 p-3 rounded-xl border border-gray-100">
-                                    <span class="text-xs font-bold text-brand-teal">專員回覆：</span>
-                                    <p class="text-sm text-gray-700 mt-1">${msg.reply}</p>
-                                </div>
-                            `;
-                        }
-
-                        adminChatList.innerHTML += `
-                            <div class="border border-gray-100 rounded-2xl p-5 shadow-sm bg-white">
-                                <div class="flex justify-between items-start mb-2">
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-sm font-bold text-gray-900">${msg.user}</span>
-                                        <span class="text-xs text-gray-400 font-medium">${msg.date}</span>
-                                    </div>
-                                    ${statusBadge}
-                                </div>
-                                <p class="text-sm text-gray-700 font-medium">${msg.text}</p>
-                                ${replyActionHTML}
-                            </div>
-                        `;
-                    });
+                    await signInAnonymously(auth);
                 }
-            }
+            } catch (err) { console.error("Auth 失敗", err); }
+        };
+
+        visitorId = sessionStorage.getItem('vita_vid');
+        if (!visitorId) {
+            visitorId = 'User_' + Math.floor(Math.random() * 10000);
+            sessionStorage.setItem('vita_vid', visitorId);
+        }
+        document.getElementById('dash-visitor-id').textContent = visitorId;
+
+        // 健康儀表板邏輯
+        const ringGoals = { move: 500, exercise: 30, mind: 15 };
+        const ringState = { move: 0, exercise: 0, mind: 0 };
+        const ringLengths = { move: 502.6, exercise: 377.0, mind: 251.3 };
+
+        function updateRingsUI(data) {
+            Object.keys(ringGoals).forEach(key => {
+                const val = Math.min(data[key] || 0, ringGoals[key]);
+                const percent = val / ringGoals[key];
+                const offset = ringLengths[key] - (ringLengths[key] * percent);
+                
+                const circle = document.getElementById(`ring-${key}`);
+                const text = document.getElementById(`text-${key}`);
+                if(circle) circle.style.strokeDashoffset = offset;
+                if(text) text.textContent = data[key] || 0;
+            });
             
-            // 同步更新顧客端聊天室
-            renderCustomerChat(); 
+            const totalPercent = Math.round(((Math.min(data.move||0, 500)/500) + (Math.min(data.exercise||0, 30)/30) + (Math.min(data.mind||0, 15)/15)) / 3 * 100);
+            const totalEl = document.getElementById('ring-total-percent');
+            if(totalEl) totalEl.textContent = `${totalPercent}%`;
         }
 
-        // === Gemini API 整合邏輯 ===
-        const apiKey = ""; // API Key 會在運行時由環境動態注入
+        window.addProgress = async (type, amount) => {
+            ringState[type] += amount;
+            updateRingsUI(ringState);
+            if(currentUser && db) {
+                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'health_data');
+                await setDoc(docRef, ringState, {merge: true});
+            }
+        };
 
+        window.resetProgress = async () => {
+            ringState.move = 0; ringState.exercise = 0; ringState.mind = 0;
+            updateRingsUI(ringState);
+            if(currentUser && db) {
+                await setDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'health_data'), ringState);
+            }
+        };
+
+        // Firebase 監聽
+        function startFirestoreListeners() {
+            if(!db || !currentUser) return;
+
+            onSnapshot(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'health_data'), (docSnap) => {
+                if(docSnap.exists()) {
+                    Object.assign(ringState, docSnap.data());
+                    updateRingsUI(ringState);
+                } else { updateRingsUI(ringState); }
+            }, (e) => console.error(e));
+
+            onSnapshot(query(collection(db, 'artifacts', appId, 'public', 'data', 'chat')), (snap) => {
+                const msgs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => a.timestamp - b.timestamp);
+                const myMsgs = msgs.filter(m => m.uid === currentUser.uid);
+                const chatBox = document.getElementById('chat-messages');
+                if(chatBox) {
+                    chatBox.innerHTML = myMsgs.map(m => `
+                        <div class="self-end bg-[#028090] text-white rounded-xl rounded-tr-sm px-3 py-2 max-w-[80%]">${m.text}</div>
+                        ${m.reply ? `<div class="self-start bg-gray-100 text-gray-800 rounded-xl rounded-tl-sm px-3 py-2 max-w-[80%]">${m.reply}</div>` : ''}
+                    `).join('');
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            }, (e) => console.error(e));
+        }
+
+        document.getElementById('chat-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = document.getElementById('chat-input').value;
+            if(text && currentUser && db) {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), {
+                    uid: currentUser.uid, vid: visitorId, text: text, timestamp: Date.now(), reply: null
+                });
+                document.getElementById('chat-input').value = '';
+            }
+        });
+
+        if(auth) {
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if(user) startFirestoreListeners();
+            });
+            initAuth();
+        }
+
+        // ==========================
+        // Gemini AI (加入防呆重試機制與精確變數)
+        // ==========================
+        // ⚠️ 極度重要：請「絕對不要」在這裡填入任何字串！必須保持完全空白的 ""
+        const apiKey = ""; 
+        
         async function fetchGeminiWithRetry(prompt, retries = 5) {
+            // 實作指數退避重試：1秒、2秒、4秒、8秒、16秒
             const delays = [1000, 2000, 4000, 8000, 16000];
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             
-            const systemInstruction = "你是一位 VITA CORE 的頂級健康與健身專屬顧問。請用專業、充滿鼓勵與能量的語氣，以繁體中文回答。請直接輸出 HTML 格式（只包含 <h3>, <p>, <ul>, <li>, <strong> 等基本標籤），不需要 Markdown 標記，也不要包含 ```html 區塊包裝，直接輸出純 HTML 內容。排版必須簡潔清晰，適合在網頁上直接呈現。";
-
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: systemInstruction }] }
+                systemInstruction: { 
+                    parts: [{ text: "你是一位 VITA CORE 的頂級健康與健身專屬顧問。請用專業、充滿鼓勵與能量的語氣，以繁體中文回答。請直接輸出 HTML 格式（只包含 <h3>, <p>, <ul>, <li>, <strong> 等基本標籤），不需要 Markdown 標記，也不要包含 ```html 區塊包裝，直接輸出純 HTML 內容。" }] 
+                }
             };
 
             for (let i = 0; i < retries; i++) {
@@ -1032,295 +656,77 @@
                     }
                     
                     const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "<p>無法產生內容，請重試。</p>";
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "<p>產生內容為空。</p>";
                 } catch (error) {
-                    if (i === retries - 1) {
-                        return "<p class='text-red-500'>抱歉，系統目前較為繁忙，請稍後再試。</p>";
-                    }
+                    if (i === retries - 1) throw error; // 最後一次依然失敗則丟出錯誤
+                    console.warn(`API 繁忙，${delays[i]/1000} 秒後重試... (第 ${i+1}/${retries} 次)`);
                     await new Promise(resolve => setTimeout(resolve, delays[i]));
                 }
             }
         }
 
+        document.getElementById('ai-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('ai-submit-btn');
+            const loading = document.getElementById('ai-loading');
+            const resContainer = document.getElementById('ai-result-container');
+            const resDiv = document.getElementById('ai-result');
+            
+            btn.disabled = true; 
+            loading.classList.remove('hidden'); 
+            resContainer.classList.add('hidden');
+            
+            const prompt = `為用戶生成專屬 VITA CORE 計畫。目標:${document.getElementById('user-goal').value}, 經驗:${document.getElementById('user-level').value}, 頻率:${document.getElementById('user-days').value}, 時長:${document.getElementById('user-duration').value}, 飲食:${document.getElementById('user-diet').value}, 強化:${document.getElementById('user-focus').value}。`;
+            
+            try {
+                const aiHTML = await fetchGeminiWithRetry(prompt);
+                resDiv.innerHTML = aiHTML;
+                window.addProgress('mind', 10); // 成功後給予正念分數獎勵
+            } catch(err) { 
+                console.error("AI 生成錯誤:", err);
+                resDiv.innerHTML = `
+                    <div class="bg-red-50 text-red-600 p-6 rounded-2xl text-center border border-red-100">
+                        <svg class="w-8 h-8 mx-auto mb-2 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <h4 class="font-bold text-lg mb-1">系統目前較為繁忙</h4>
+                        <p class="text-sm">頂級 AI 教練正在為大量會員服務，請稍後幾秒鐘再重新點擊產生。</p>
+                    </div>`; 
+            }
+            
+            loading.classList.add('hidden'); 
+            btn.disabled = false; 
+            resContainer.classList.remove('hidden');
+            resContainer.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // UI 互動
         document.addEventListener('DOMContentLoaded', () => {
-            // 初始化後臺與前台聊天室畫面
-            updateDashboardUI();
-
-            // --- 聊天小工具互動邏輯 ---
-            const chatToggleBtn = document.getElementById('chat-toggle-btn');
-            const chatPanel = document.getElementById('chat-widget-panel');
-            const closeChatBtn = document.getElementById('close-chat-btn');
-            const chatForm = document.getElementById('chat-form');
-            const chatInput = document.getElementById('chat-input');
-
-            if(chatToggleBtn && chatPanel) {
-                chatToggleBtn.addEventListener('click', () => {
-                    chatPanel.classList.toggle('hidden');
-                    chatPanel.classList.toggle('flex');
-                    if(!chatPanel.classList.contains('hidden')) {
-                        renderCustomerChat(); // 確保打開時滾動到底部
-                    }
-                });
-                closeChatBtn.addEventListener('click', () => {
-                    chatPanel.classList.add('hidden');
-                    chatPanel.classList.remove('flex');
-                });
-            }
-
-            if(chatForm) {
-                chatForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const text = chatInput.value.trim();
-                    if(text) {
-                        const now = new Date();
-                        const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-                        appState.messages.push({
-                            id: Date.now(),
-                            user: '訪客',
-                            text: text,
-                            reply: '',
-                            status: '未回覆',
-                            date: timeStr
-                        });
-                        chatInput.value = '';
-                        updateDashboardUI(); // 觸發全域 UI 更新
-                    }
-                });
-            }
-
-            // --- 後臺登入與權限管理邏輯 ---
-            const adminLoginView = document.getElementById('admin-login-view');
-            const adminContentView = document.getElementById('admin-content-view');
-            const adminLoginForm = document.getElementById('admin-login-form');
-            const loginError = document.getElementById('login-error');
-            const adminLogoutBtn = document.getElementById('admin-logout-btn');
-
-            // 檢查 Session 中的登入狀態
-            function checkAdminAuth() {
-                const isAuth = sessionStorage.getItem('adminAuth') === 'true';
-                if (isAuth) {
-                    if(adminLoginView) adminLoginView.classList.add('hidden');
-                    if(adminContentView) adminContentView.classList.remove('hidden');
-                } else {
-                    if(adminLoginView) adminLoginView.classList.remove('hidden');
-                    if(adminContentView) adminContentView.classList.add('hidden');
-                }
-            }
-
-            // 處理登入提交
-            if (adminLoginForm) {
-                adminLoginForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const user = document.getElementById('admin-username').value;
-                    const pass = document.getElementById('admin-password').value;
-
-                    // 簡易前端驗證 (為您設置的測試帳號)
-                    if (user === 'admin' && pass === 'admin123') {
-                        sessionStorage.setItem('adminAuth', 'true');
-                        if(loginError) loginError.classList.add('hidden');
-                        checkAdminAuth();
-                    } else {
-                        if(loginError) loginError.classList.remove('hidden');
-                    }
-                });
-            }
-
-            // 處理登出
-            if (adminLogoutBtn) {
-                adminLogoutBtn.addEventListener('click', () => {
-                    sessionStorage.removeItem('adminAuth');
-                    document.getElementById('admin-username').value = '';
-                    document.getElementById('admin-password').value = '';
-                    checkAdminAuth();
-                });
-            }
-
-            // 初始執行權限檢查
-            checkAdminAuth();
-
-            // --- 訂閱表單提交邏輯 ---
-            const subscribeForm = document.getElementById('subscribe-form');
-            if(subscribeForm) {
-                subscribeForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const emailInput = document.getElementById('subscribe-email');
-                    const email = emailInput.value;
-                    
-                    if(email) {
-                        // 寫入系統狀態
-                        appState.totalSubs += 1;
-                        
-                        const today = new Date();
-                        const dateStr = `${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}`;
-                        
-                        appState.recentSubs.unshift({
-                            email: email,
-                            date: dateStr,
-                            status: '最新加入'
-                        });
-
-                        // 限制列表長度以防過長
-                        if (appState.recentSubs.length > 5) {
-                            appState.recentSubs.pop();
-                        }
-
-                        updateDashboardUI(); // 更新後臺
-
-                        alert('感謝您的訂閱！我們將盡快聯繫您。');
-                        emailInput.value = ''; // 清空欄位
-                    }
-                });
-            }
-
-            // --- AI 顧問表單提交邏輯 ---
-            const aiForm = document.getElementById('ai-form');
-            const submitBtn = document.getElementById('ai-submit-btn');
-            const loadingIndicator = document.getElementById('ai-loading');
-            const resultContainer = document.getElementById('ai-result-container');
-            const resultDiv = document.getElementById('ai-result');
-
-            if(aiForm) {
-                aiForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    
-                    // 寫入系統狀態
-                    appState.aiUses += 1;
-                    updateDashboardUI(); // 更新後臺
-
-                    const goal = document.getElementById('user-goal').value;
-                    const level = document.getElementById('user-level').value;
-                    const days = document.getElementById('user-days').value;
-                    const duration = document.getElementById('user-duration').value;
-                    const diet = document.getElementById('user-diet').value;
-                    const focus = document.getElementById('user-focus').value;
-                    
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = "<span>分析中...</span>";
-                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                    resultContainer.classList.add('hidden');
-                    loadingIndicator.classList.remove('hidden');
-
-                    const prompt = `請為一位目標是「${goal}」、經驗等級為「${level}」的用戶，制定一份專屬的「VITA CORE 客製化健康精華計畫」。\n用戶的具體條件如下：\n- 每週運動天數：${days}\n- 每次訓練時長：${duration}\n- 飲食偏好：${diet}\n- 重點加強部位：${focus}\n\n內容請包含：\n1. 專屬運動菜單建議 (請依據天數、時長與加強部位合理分配)\n2. 飲食重點原則 (請符合其飲食偏好)\n3. 一項簡短的正念冥想或恢復練習建議`;
-
-                    const aiResponseHTML = await fetchGeminiWithRetry(prompt);
-
-                    loadingIndicator.classList.add('hidden');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = "<span>✨ 重新產生</span>";
-                    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    
-                    resultDiv.innerHTML = aiResponseHTML;
-                    resultContainer.classList.remove('hidden');
-                    
-                    setTimeout(() => {
-                        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
-                });
-            }
-
-            // --- Mega Menu (巨型選單) 互動邏輯 ---
-            const megaTriggers = document.querySelectorAll('.mega-trigger');
             const megaMenu = document.getElementById('mega-menu');
-            const headerBgGlass = document.getElementById('header-bg-glass');
-            const headerBgSolid = document.getElementById('header-bg-solid');
-            let isMegaMenuOpen = false;
+            let isMegaOpen = false;
+            document.querySelectorAll('.mega-trigger').forEach(el => el.addEventListener('click', (e) => {
+                e.preventDefault(); isMegaOpen = !isMegaOpen;
+                megaMenu.style.opacity = isMegaOpen ? '1' : '0';
+                megaMenu.style.maxHeight = isMegaOpen ? '500px' : '0px';
+                megaMenu.style.pointerEvents = isMegaOpen ? 'auto' : 'none';
+            }));
+            
+            const chatPanel = document.getElementById('chat-widget-panel');
+            document.getElementById('chat-toggle-btn')?.addEventListener('click', () => { chatPanel.classList.toggle('hidden'); chatPanel.classList.toggle('flex'); });
+            document.getElementById('close-chat-btn')?.addEventListener('click', () => { chatPanel.classList.add('hidden'); chatPanel.classList.remove('flex'); });
 
-            function toggleMegaMenu(e) {
-                if (e) e.preventDefault();
-                isMegaMenuOpen = !isMegaMenuOpen;
-                
-                if (isMegaMenuOpen) {
-                    megaMenu.style.maxHeight = '500px';
-                    megaMenu.style.opacity = '1';
-                    megaMenu.style.pointerEvents = 'auto';
-                    headerBgGlass.style.opacity = '0';
-                    headerBgSolid.style.opacity = '1';
-                } else {
-                    megaMenu.style.maxHeight = '0px';
-                    megaMenu.style.opacity = '0';
-                    megaMenu.style.pointerEvents = 'none';
-                    headerBgGlass.style.opacity = '1';
-                    headerBgSolid.style.opacity = '0';
-                }
-            }
-
-            function closeMegaMenu() {
-                if (isMegaMenuOpen) toggleMegaMenu();
-            }
-
-            megaTriggers.forEach(trigger => trigger.addEventListener('click', toggleMegaMenu));
-            document.addEventListener('click', (e) => { if (!e.target.closest('header')) closeMegaMenu(); });
-            document.querySelectorAll('.nav-trigger, .mega-link').forEach(link => link.addEventListener('click', () => closeMegaMenu()));
-
-            // --- SPA 子網頁路由邏輯 ---
             function handleRoute() {
-                let hash = window.location.hash || '#about';
-                const pages = document.querySelectorAll('.page-section');
-                let pageFound = false;
-
-                pages.forEach(page => {
+                const hash = window.location.hash || '#hero';
+                document.querySelectorAll('.page-section').forEach(page => {
                     if ('#' + page.id === hash) {
                         page.classList.remove('hidden');
-                        if(page.id !== 'about') page.classList.add('animate-fadeIn');
-                        pageFound = true;
-                    } else {
-                        page.classList.add('hidden');
-                        page.classList.remove('animate-fadeIn');
-                    }
+                        if(hash !== '#hero') page.classList.add('animate-fadeIn');
+                    } else page.classList.add('hidden');
                 });
-
-                if (!pageFound && pages.length > 0) {
-                    pages[0].classList.remove('hidden');
-                    hash = '#' + pages[0].id;
-                }
-
-                document.querySelectorAll('.nav-link:not(.mega-trigger)').forEach(link => {
-                    if (link.getAttribute('href') === hash) {
-                        link.classList.add('text-black', 'opacity-100', 'font-semibold');
-                        link.classList.remove('text-gray-800', 'opacity-80');
-                    } else {
-                        link.classList.remove('text-black', 'opacity-100', 'font-semibold');
-                        link.classList.add('text-gray-800', 'opacity-80');
-                    }
-                });
-
-                document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                    if (link.getAttribute('href') === hash) {
-                        link.classList.add('text-black');
-                        link.classList.remove('text-gray-800');
-                    } else {
-                        link.classList.remove('text-black');
-                        link.classList.add('text-gray-800');
-                    }
-                });
-
-                if (hash === '#about') {
-                    const animatedElements = document.querySelectorAll('.apple-animate');
-                    animatedElements.forEach(el => {
-                        el.style.animation = 'none';
-                        el.offsetHeight; 
-                        el.style.animation = null; 
-                    });
-                }
-
+                isMegaOpen = false; megaMenu.style.maxHeight = '0px'; megaMenu.style.opacity = '0';
                 window.scrollTo({top: 0, behavior: 'instant'});
             }
-
             window.addEventListener('hashchange', handleRoute);
             handleRoute();
-
-            // 手機版選單切換
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                closeMegaMenu(); 
-            });
-
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-            });
+            updateRingsUI(ringState);
         });
     </script>
 </body>
