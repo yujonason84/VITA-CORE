@@ -555,12 +555,37 @@
 
         document.getElementById('chat-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const text = document.getElementById('chat-input').value;
-            if(text && currentUser && db) {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), {
-                    uid: currentUser.uid, vid: visitorId, text: text, timestamp: Date.now(), reply: null
-                });
-                document.getElementById('chat-input').value = '';
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            input.value = ''; // 立即清空輸入框
+
+            // 判斷是否成功連接到 Firebase 後端
+            if(currentUser && db) {
+                try {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), {
+                        uid: currentUser.uid, vid: visitorId, text: text, timestamp: Date.now(), reply: null
+                    });
+                } catch (err) {
+                    console.error("發送失敗", err);
+                }
+            } else {
+                // 若無 Firebase 狀態，啟動「展示模擬模式」
+                const chatBox = document.getElementById('chat-messages');
+                if (chatBox) {
+                    // 顯示用戶訊息
+                    chatBox.innerHTML += `<div class="self-end bg-[#028090] text-white rounded-xl rounded-tr-sm px-3 py-2 max-w-[80%] break-words">${text}</div>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    
+                    // 1秒後模擬客服回覆
+                    setTimeout(() => {
+                        chatBox.innerHTML += `<div class="self-start bg-gray-100 text-gray-800 rounded-xl rounded-tl-sm px-3 py-2 max-w-[80%] text-left break-words">
+                            您好！(展示模式自動回覆)<br>我們已收到您的訊息：「${text}」，此為前端模擬畫面。
+                        </div>`;
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }, 1000);
+                }
             }
         });
 
