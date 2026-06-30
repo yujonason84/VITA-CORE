@@ -339,6 +339,16 @@
 
                 <div class="bg-brand-appleGray rounded-[2rem] shadow-sm p-6 md:p-12 border border-gray-200">
                     <form id="ai-form" class="space-y-6 md:space-y-8">
+                        <!-- 新增：API Key 輸入區塊 -->
+                        <div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6">
+                            <label class="block text-sm font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                                Google Gemini API Key (自訂授權碼)
+                            </label>
+                            <input type="password" id="api-key-input" placeholder="請貼上您的 AIza... 金鑰 (選填)" class="w-full bg-white border border-blue-200 text-gray-900 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-brand-appleBlue outline-none text-sm transition-all shadow-sm">
+                            <p class="text-xs text-blue-700 mt-2">※ 若未填寫將自動啟動「展示模式」。填寫真實金鑰即可解鎖完整的 AI 運算。<a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-blue-900 ml-1">點此免費申請</a></p>
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">主要目標</label>
@@ -600,15 +610,12 @@
         }
 
         // ==========================
-        // Gemini AI (包含展示模式防呆)
+        // Gemini AI (包含自訂 API Key 與展示模式防呆)
         // ==========================
-        // ⚠️ 在 Canvas 預覽環境中，請維持為 "" 空字串
-        // ⚠️ 若部署到您自己的網站，請填入申請到的 "AIza..." 金鑰
-        const apiKey = ""; 
         
-        async function fetchGeminiWithRetry(prompt, retries = 5) {
-            // Demo 模式判斷：如果沒有 apiKey，自動使用展示效果
-            if (!apiKey || apiKey.trim() === "") {
+        async function fetchGeminiWithRetry(prompt, customApiKey, retries = 5) {
+            // Demo 模式判斷：如果沒有輸入 apiKey，自動使用展示效果
+            if (!customApiKey || customApiKey.trim() === "") {
                 console.log("偵測到無 API Key，啟動展示模式 (Demo Mode)");
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 return `
@@ -624,7 +631,7 @@
             }
 
             const delays = [1000, 2000, 4000, 8000, 16000];
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${customApiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
@@ -655,6 +662,15 @@
 
         document.getElementById('ai-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // 讀取並儲存 API Key
+            const apiKeyInput = document.getElementById('api-key-input').value.trim();
+            if (apiKeyInput) {
+                localStorage.setItem('vita_api_key', apiKeyInput);
+            } else {
+                localStorage.removeItem('vita_api_key');
+            }
+
             const btn = document.getElementById('ai-submit-btn');
             const loading = document.getElementById('ai-loading');
             const resContainer = document.getElementById('ai-result-container');
@@ -667,7 +683,7 @@
             const prompt = `為用戶生成專屬 VITA CORE 計畫。目標:${document.getElementById('user-goal').value}, 經驗:${document.getElementById('user-level').value}, 頻率:${document.getElementById('user-days').value}, 時長:${document.getElementById('user-duration').value}, 飲食:${document.getElementById('user-diet').value}, 強化:${document.getElementById('user-focus').value}。`;
             
             try {
-                const aiHTML = await fetchGeminiWithRetry(prompt);
+                const aiHTML = await fetchGeminiWithRetry(prompt, apiKeyInput);
                 resDiv.innerHTML = aiHTML;
                 window.addProgress('mind', 10); 
             } catch(err) { 
@@ -726,6 +742,12 @@
             window.addEventListener('hashchange', handleRoute);
             handleRoute();
             updateRingsUI(ringState);
+            
+            // 初始化時，讀取先前的 API Key
+            const savedApiKey = localStorage.getItem('vita_api_key');
+            if (savedApiKey && document.getElementById('api-key-input')) {
+                document.getElementById('api-key-input').value = savedApiKey;
+            }
         });
     </script>
 </body>
