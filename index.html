@@ -596,9 +596,10 @@
             const text = input.value.trim();
             if (!text) return;
             
-            input.value = ''; 
+            input.value = ''; // 發送後立即清空輸入框
 
             if(currentUser && db) {
+                // [真實連線模式] 將訊息寫入 Firebase 資料庫
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), {
                         uid: currentUser.uid, vid: visitorId, text: text, timestamp: Date.now(), reply: null
@@ -607,17 +608,37 @@
                     console.error("發送失敗", err);
                 }
             } else {
+                // [展示模式] 若無 Firebase，啟動「本機跨分頁同步模式」
                 const chatBox = document.getElementById('chat-messages');
                 if (chatBox) {
+                    // 1. 將訪客發送的訊息顯示在畫面上
                     chatBox.innerHTML += `<div class="self-end bg-[#028090] text-white rounded-xl rounded-tr-sm px-3 py-2 max-w-[80%] break-words">${text}</div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
                     
-                    setTimeout(() => {
+                    // 2. 將訊息寫入 LocalStorage，讓後台 admin.html 瞬間讀取
+                    const historyStr = localStorage.getItem('vita_chat_sync');
+                    const msgs = historyStr ? JSON.parse(historyStr) : [];
+                    msgs.push({ id: Date.now().toString(), vid: visitorId, text: text, timestamp: Date.now(), reply: null });
+                    localStorage.setItem('vita_chat_sync', JSON.stringify(msgs));
+                }
+            }
+        });
+
+        // 🌟 新增：監聽後台的回覆 (跨分頁即時更新)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'vita_chat_sync') {
+                const msgs = JSON.parse(e.newValue || '[]');
+                const lastMsg = msgs[msgs.length - 1];
+                // 如果最後一則訊息有回覆，且是這位訪客發出的，就顯示在畫面上
+                if (lastMsg && lastMsg.reply && lastMsg.vid === visitorId) {
+                    const chatBox = document.getElementById('chat-messages');
+                    if (chatBox && !chatBox.innerHTML.includes(lastMsg.reply)) {
                         chatBox.innerHTML += `<div class="self-start bg-gray-100 text-gray-800 rounded-xl rounded-tl-sm px-3 py-2 max-w-[80%] text-left break-words">
-                            您好！(展示模式自動回覆)<br>我們已收到您的訊息：「${text}」，此為前端模擬畫面。
+                            <strong class="text-blue-900 block mb-0.5 text-xs">官方回覆：</strong>
+                            ${lastMsg.reply}
                         </div>`;
                         chatBox.scrollTop = chatBox.scrollHeight;
-                    }, 1000);
+                    }
                 }
             }
         });
