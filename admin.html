@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VITA CORE | 管理員安全後台</title>
+    <title>VITA CORE | 多次回覆管理後台</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -13,65 +13,65 @@
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center">
             <h2 class="text-xl font-bold mb-6">管理員驗證</h2>
             <input type="password" id="admin-pass" placeholder="輸入管理密碼" 
-                class="w-full p-3 border rounded-xl mb-4 outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="checkAuth()" class="w-full bg-[#1d1d1f] text-white py-3 rounded-xl font-bold">進入後台</button>
+                class="w-full p-3 border rounded-lg mb-4 outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="checkAuth()" class="w-full bg-[#1d1d1f] text-white py-3 rounded-lg font-bold">進入後台</button>
         </div>
     </div>
 
-    <!-- 後台內容 (預設隱藏) -->
+    <!-- 後台內容 -->
     <div id="admin-content" class="hidden max-w-4xl mx-auto p-4 md:p-8">
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
             <div class="bg-[#1d1d1f] p-6 text-white flex justify-between items-center">
-                <h1 class="text-xl font-bold">VITA CORE 客服後台</h1>
-                <span class="text-xs bg-green-500 px-2 py-1 rounded">● 安全連線</span>
+                <h1 class="text-xl font-bold">客服對話紀錄</h1>
+                <span class="text-xs bg-green-500 px-2 py-1 rounded">● 多次回覆啟用</span>
             </div>
             <div id="admin-chat-list" class="h-[500px] overflow-y-auto p-6 bg-gray-50 flex flex-col gap-4"></div>
             <div id="reply-area" class="p-6 border-t bg-white hidden">
-                <textarea id="reply-text" class="w-full p-3 border rounded-xl mb-3 h-24 outline-none focus:ring-2 focus:ring-[#028090]" placeholder="輸入回覆..."></textarea>
-                <button id="send-reply" class="bg-[#028090] text-white px-6 py-2 rounded-full font-bold hover:bg-teal-700">發送回覆</button>
+                <textarea id="reply-text" class="w-full p-3 border rounded-lg mb-3 h-20 outline-none focus:ring-2 focus:ring-[#028090]" placeholder="輸入後續回覆..."></textarea>
+                <button id="send-reply" class="bg-[#028090] text-white px-6 py-2 rounded-full font-bold hover:bg-teal-700">發送追蹤回覆</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 設定密碼 (建議實際應用時改為更複雜的加密儲存)
-        const ADMIN_SECRET = "123456"; 
+        const ADMIN_SECRET = "En960315"; 
 
         function checkAuth() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass === ADMIN_SECRET) {
+            if (document.getElementById('admin-pass').value === ADMIN_SECRET) {
                 document.getElementById('auth-layer').classList.add('hidden');
                 document.getElementById('admin-content').classList.remove('hidden');
                 loadMessages();
-            } else {
-                alert("密碼錯誤，拒絕存取。");
-            }
+            } else { alert("密碼錯誤"); }
         }
-
-        let currentVid = null;
 
         function loadMessages() {
             const historyStr = localStorage.getItem('vita_chat_sync');
             const msgs = historyStr ? JSON.parse(historyStr) : [];
             const list = document.getElementById('admin-chat-list');
             
-            list.innerHTML = msgs.length === 0 ? '<p class="text-center text-gray-400 py-20">目前暫無訪客訊息。</p>' : '';
+            list.innerHTML = msgs.length === 0 ? '<p class="text-center text-gray-400 py-20">暫無訊息。</p>' : '';
             
             msgs.forEach((m, index) => {
                 const div = document.createElement('div');
-                div.className = `p-4 rounded-xl max-w-[80%] ${m.reply ? 'bg-white border' : 'bg-blue-50 border-l-4 border-blue-400'}`;
+                div.className = "p-4 rounded-xl bg-white border shadow-sm";
+                
+                // 處理多則回覆顯示
+                let repliesHtml = '';
+                if (m.replies && m.replies.length > 0) {
+                    repliesHtml = m.replies.map(r => `<div class="text-xs text-gray-600 bg-gray-100 p-2 my-1 rounded border-l-2 border-blue-500">官方回覆：${r}</div>`).join('');
+                }
+
                 div.innerHTML = `
-                    <div class="text-[10px] text-gray-400 mb-1">訪客 ID: ${m.vid}</div>
+                    <div class="text-[10px] text-gray-400">訪客 ID: ${m.vid}</div>
                     <div class="text-sm font-bold text-gray-800 mb-2">${m.text}</div>
-                    ${m.reply ? `<div class="text-xs text-gray-500 bg-gray-100 p-2 rounded">官方回覆：${m.reply}</div>` : 
-                    `<button onclick="selectMsg(${index}, '${m.vid}')" class="text-xs text-blue-600 font-bold hover:underline">回覆此訊息</button>`}
+                    ${repliesHtml}
+                    <button onclick="selectMsg(${index})" class="mt-3 text-xs text-blue-600 font-bold hover:underline">新增追蹤回覆</button>
                 `;
                 list.appendChild(div);
             });
         }
 
-        function selectMsg(index, vid) {
-            currentVid = vid;
+        function selectMsg(index) {
             document.getElementById('reply-area').classList.remove('hidden');
             window.targetIndex = index;
         }
@@ -81,13 +81,17 @@
             if(!text) return;
 
             const msgs = JSON.parse(localStorage.getItem('vita_chat_sync'));
-            msgs[window.targetIndex].reply = text;
-            localStorage.setItem('vita_chat_sync', JSON.stringify(msgs));
+            // 初始化回覆陣列 (若不存在)
+            if (!msgs[window.targetIndex].replies) msgs[window.targetIndex].replies = [];
+            msgs[window.targetIndex].replies.push(text);
             
+            localStorage.setItem('vita_chat_sync', JSON.stringify(msgs));
             document.getElementById('reply-text').value = '';
             document.getElementById('reply-area').classList.add('hidden');
             loadMessages();
         });
+
+        window.addEventListener('storage', loadMessages);
     </script>
 </body>
 </html>
