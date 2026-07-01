@@ -3,75 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VITA CORE | 管理員後臺</title>
+    <title>VITA CORE | 管理員後台</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "Helvetica Neue", sans-serif; }
+        /* 自訂捲軸樣式 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen text-gray-800">
+<body class="bg-gray-50 flex h-screen overflow-hidden text-gray-800">
 
-    <!-- 登入介面 -->
-    <div id="admin-login-view" class="max-w-md mx-auto mt-24 bg-white p-10 rounded-3xl shadow-sm border border-gray-100 text-center relative z-10">
-        <div class="mb-6">
-            <span class="text-4xl">🔒</span>
-            <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-900">管理員登入</h2>
-            <p class="mt-2 text-sm text-gray-500">請輸入憑證以進入後台管理</p>
+    <!-- 側邊欄 -->
+    <aside class="w-64 bg-[#1d1d1f] text-white flex flex-col shadow-xl z-10">
+        <div class="p-8 border-b border-gray-800">
+            <h1 class="text-xl font-bold tracking-widest uppercase mb-1">VITA CORE</h1>
+            <p class="text-xs text-gray-400">Admin Control Center</p>
         </div>
-        <form id="admin-login-form" class="space-y-4 text-left">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">帳號</label>
-                <input type="text" id="admin-username" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#028090]" required placeholder="請輸入帳號">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">密碼</label>
-                <input type="password" id="admin-password" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#028090]" required placeholder="請輸入密碼">
-            </div>
-            <div id="login-error" class="hidden text-red-500 text-sm text-center bg-red-50 p-2 rounded-lg mt-2">登入資訊錯誤。</div>
-            <button type="submit" class="w-full bg-[#028090] hover:bg-[#0b4f4f] text-white font-bold py-3 rounded-xl transition-colors mt-4">登入系統</button>
-        </form>
-    </div>
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="#" class="block px-4 py-3 bg-[#0071e3] text-white rounded-xl font-semibold shadow-sm flex items-center gap-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                客服訊息中心
+            </a>
+            <a href="index.html" class="block px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-xl transition flex items-center gap-3 mt-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                返回前台網站
+            </a>
+        </nav>
+        <div class="p-6 border-t border-gray-800 text-xs text-gray-500 text-center">
+            System V1.0.0
+        </div>
+    </aside>
 
-    <!-- 後台主畫面 (登入後顯示) -->
-    <div id="admin-content-view" class="hidden max-w-5xl mx-auto px-4 py-12">
-        <header class="mb-8 border-b pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <!-- 主畫面 -->
+    <main class="flex-1 flex flex-col relative bg-gray-50/50">
+        <header class="bg-white/80 backdrop-blur-md px-8 py-5 flex justify-between items-center shadow-sm z-10">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800">VITA CORE 後臺控制中心</h1>
-                <p class="text-sm text-gray-500 mt-2">即時監控並回覆所有訪客提問</p>
+                <h2 class="text-2xl font-bold tracking-tight text-gray-900">線上客服即時中心</h2>
+                <p class="text-sm text-gray-500 mt-1">在這裡管理並即時回覆所有前台訪客的提問。</p>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="text-sm font-medium text-[#028090] bg-teal-50 px-4 py-2 rounded-full border border-teal-100 shadow-sm" id="logged-in-user"></span>
-                <button id="admin-logout-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-full text-sm font-semibold transition">登出</button>
+            <div class="flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full border border-green-100">
+                <div class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></div>
+                <span id="status" class="text-green-700 text-sm font-semibold">系統已連線</span>
             </div>
         </header>
         
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                💬 訪客客服問答 
-                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse uppercase tracking-wider">Live</span>
-            </h2>
-            <div id="admin-chat-list" class="space-y-6 max-h-[600px] overflow-y-auto pr-4">
-                <div class="text-center py-10">
-                    <p class="text-gray-400 text-sm">正在載入客戶訊息...</p>
+        <div class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-[calc(100vh-160px)]">
+                <!-- 訊息列表區塊 -->
+                <div id="admin-chat-list" class="flex-1 p-6 overflow-y-auto space-y-5 bg-[#fbfbfd]">
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400">
+                        <svg class="animate-spin h-8 w-8 text-gray-300 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        正在與 Firebase 資料庫同步中...
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
+    <!-- Firebase 與 JS 邏輯 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        let db, auth, currentUser;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        let db, auth, currentUser;
 
         try {
             const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
             const app = initializeApp(firebaseConfig);
             auth = getAuth(app);
             db = getFirestore(app);
-        } catch(e) { console.error("Firebase 初始化失敗:", e); }
+        } catch(e) { 
+            console.warn("Firebase Init Error", e);
+            document.getElementById('status').textContent = '本機展示模式';
+            document.getElementById('status').parentElement.className = 'flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-full border border-yellow-100 text-yellow-700 text-sm font-semibold';
+            
+            // 展示模式假資料
+            document.getElementById('admin-chat-list').innerHTML = `
+                <div class="text-center text-gray-500 mt-10 p-6 bg-yellow-50 rounded-2xl border border-yellow-100">
+                    <p class="font-bold mb-2">⚠️ 目前處於本機無資料庫狀態</p>
+                    <p class="text-sm">若要測試真實連線，請確保您在具有 Firebase 環境的平台預覽，或將程式碼部署至伺服器。</p>
+                </div>
+            `;
+        }
 
         const initAuth = async () => {
             if(!auth) return;
@@ -84,110 +102,102 @@
             } catch (err) { console.error("Auth 失敗", err); }
         };
 
-        const loginView = document.getElementById('admin-login-view');
-        const contentView = document.getElementById('admin-content-view');
-        
-        function checkAdminAuth() {
-            const currentAdmin = sessionStorage.getItem('adminAuthUser');
-            if (currentAdmin) {
-                loginView.classList.add('hidden');
-                contentView.classList.remove('hidden');
-                document.getElementById('logged-in-user').textContent = `👤 專員：${currentAdmin}`;
-            } else {
-                loginView.classList.remove('hidden');
-                contentView.classList.add('hidden');
-            }
-        }
-
-        document.getElementById('admin-login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const user = document.getElementById('admin-username').value;
-            const pass = document.getElementById('admin-password').value;
-            
-            // 驗證邏輯
-            if ((user === 'admin' && pass === 'admin123') || 
-                (user === 'yujonason84' && pass === 'En960315')) {
-                
-                sessionStorage.setItem('adminAuthUser', user);
-                document.getElementById('login-error').classList.add('hidden');
-                checkAdminAuth();
-            } else {
-                document.getElementById('login-error').classList.remove('hidden');
-            }
-        });
-
-        document.getElementById('admin-logout-btn').addEventListener('click', () => {
-            sessionStorage.removeItem('adminAuthUser');
-            checkAdminAuth();
-        });
-
-        checkAdminAuth();
-
-        window.adminReply = async (docId) => {
-            const input = document.getElementById(`reply-${docId}`);
-            if(input && input.value.trim() && currentUser && db) {
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'chat', docId), {
-                    reply: input.value.trim(),
-                    repliedAt: new Date().toISOString()
-                }, {merge: true});
-                input.value = '';
-            }
-        };
-
-        function startAdminListeners() {
-            if(!db || !currentUser) return;
-            const adminList = document.getElementById('admin-chat-list');
-            
-            onSnapshot(query(collection(db, 'artifacts', appId, 'public', 'data', 'chat')), (snap) => {
-                const msgs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => b.timestamp - a.timestamp);
-                
-                if (msgs.length === 0) {
-                    adminList.innerHTML = '<div class="text-center py-10"><p class="text-gray-400">目前沒有任何客戶訊息。</p></div>';
-                    return;
-                }
-
-                const grouped = msgs.reduce((acc, m) => { 
-                    acc[m.vid] = acc[m.vid] || []; 
-                    acc[m.vid].push(m); 
-                    return acc; 
-                }, {});
-
-                adminList.innerHTML = Object.entries(grouped).map(([vid, list]) => `
-                    <div class="border border-gray-200 rounded-2xl p-6 bg-white shadow-sm">
-                        <div class="flex items-center gap-2 border-b border-gray-100 pb-3 mb-4">
-                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                            <h3 class="font-bold text-sm text-gray-700">訪客識別碼: <span class="font-mono text-[#028090]">${vid}</span></h3>
-                        </div>
-                        <div class="space-y-4">
-                            ${list.map(m => `
-                                <div>
-                                    <div class="text-sm text-gray-800 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium break-words">
-                                        <span class="text-gray-400 mr-1">💬</span> ${m.text}
-                                    </div>
-                                    ${m.reply 
-                                        ? `<div class="text-sm text-[#0b4f4f] bg-teal-50/50 p-4 rounded-xl border border-teal-100 mt-2 flex items-start gap-2 break-words">
-                                               <span>✅</span> <div><span class="font-bold block mb-1">專員已回覆：</span>${m.reply}</div>
-                                           </div>` 
-                                        : `<div class="flex gap-2 mt-2 ml-4">
-                                                <input id="reply-${m.id}" type="text" class="border border-gray-200 flex-1 px-4 py-2.5 text-sm rounded-xl outline-none focus:ring-2 focus:ring-[#028090] bg-gray-50" placeholder="輸入回覆...">
-                                                <button onclick="adminReply('${m.id}')" class="bg-[#028090] text-white px-6 py-2.5 text-sm font-bold rounded-xl hover:bg-[#0b4f4f] transition">送出</button>
-                                           </div>`
-                                    }
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `).join('');
-            });
-        }
-
         if(auth) {
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
-                if(user) startAdminListeners();
+                if(user && db) loadMessages();
             });
             initAuth();
         }
+
+        // 讀取並渲染訊息
+        function loadMessages() {
+            const chatList = document.getElementById('admin-chat-list');
+            
+            // 監聽與前台 index.html 一模一樣的資料庫路徑
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), (snap) => {
+                if (snap.empty) {
+                    chatList.innerHTML = `
+                        <div class="h-full flex flex-col items-center justify-center text-gray-400">
+                            <svg class="w-12 h-12 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                            目前沒有任何客戶訊息
+                        </div>`;
+                    return;
+                }
+
+                // 取得資料並依時間排序 (舊到新)
+                const msgs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => a.timestamp - b.timestamp);
+                
+                chatList.innerHTML = msgs.map(m => {
+                    const timeString = new Date(m.timestamp).toLocaleTimeString('zh-TW', {hour: '2-digit', minute:'2-digit', month:'short', day:'numeric'});
+                    const isAnswered = m.reply !== null && m.reply !== '';
+
+                    return `
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border ${isAnswered ? 'border-gray-100' : 'border-blue-200 ring-1 ring-blue-50'} transition-all">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-lg shadow-inner">👤</div>
+                                <div>
+                                    <span class="font-bold text-gray-900 text-sm">訪客 ID: <span class="font-mono text-[#0071e3]">${m.vid || '匿名訪客'}</span></span>
+                                    <div class="text-[11px] text-gray-400">${timeString}</div>
+                                </div>
+                            </div>
+                            ${!isAnswered ? '<span class="bg-blue-100 text-[#0071e3] text-xs px-2.5 py-1 rounded-full font-bold">待回覆</span>' : ''}
+                        </div>
+                        
+                        <p class="text-gray-800 mb-4 bg-gray-50/80 p-4 rounded-xl text-sm border border-gray-100 leading-relaxed">${m.text}</p>
+                        
+                        ${isAnswered 
+                            ? `<div class="bg-blue-50/50 border border-blue-100 p-4 rounded-xl text-sm flex gap-3">
+                                 <div class="w-6 h-6 rounded-full bg-[#0071e3] text-white flex items-center justify-center text-xs flex-shrink-0 shadow-sm mt-0.5">V</div>
+                                 <div>
+                                     <strong class="text-blue-900 block mb-0.5">官方已回覆：</strong>
+                                     <span class="text-gray-700">${m.reply}</span>
+                                 </div>
+                               </div>`
+                            : `<div class="flex gap-2 relative">
+                                 <input type="text" id="reply-input-${m.id}" class="flex-1 border border-gray-300 px-4 py-2.5 rounded-xl text-sm outline-none focus:border-[#0071e3] focus:ring-2 focus:ring-blue-100 transition-all bg-white" placeholder="輸入回覆給這位訪客...">
+                                 <button onclick="sendReply('${m.id}')" class="bg-[#1d1d1f] hover:bg-black text-white px-6 py-2.5 rounded-xl text-sm font-semibold shadow-sm hover:shadow transition-all">送出回覆</button>
+                               </div>`
+                        }
+                    </div>
+                `}).join('');
+                
+                // 自動捲動到底部
+                chatList.scrollTop = chatList.scrollHeight;
+            }, (error) => {
+                console.error("讀取訊息失敗", error);
+                chatList.innerHTML = '<div class="text-center text-red-500 mt-10">讀取資料失敗，請檢查權限設定。</div>';
+            });
+        }
+
+        // 發送回覆邏輯 (掛載到全域 window)
+        window.sendReply = async (docId) => {
+            const input = document.getElementById(`reply-input-${docId}`);
+            const replyText = input.value.trim();
+            
+            if (!replyText || !db) return;
+            
+            // 變更按鈕為載入狀態
+            const btn = input.nextElementSibling;
+            const originalText = btn.textContent;
+            btn.textContent = '傳送中...';
+            btn.disabled = true;
+            input.disabled = true;
+
+            try {
+                // 更新該筆訊息，加入 reply 欄位
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'chat'), {
+                    reply: replyText
+                });
+            } catch (e) {
+                console.error("回覆失敗", e);
+                alert("回覆失敗，請稍後再試！");
+                btn.textContent = originalText;
+                btn.disabled = false;
+                input.disabled = false;
+            }
+        };
     </script>
 </body>
 </html>
