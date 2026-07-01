@@ -67,6 +67,9 @@
         .ai-content p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; }
         .ai-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
         .ai-content li { margin-bottom: 0.375rem; }
+
+        /* 按鈕鎖定狀態樣式 */
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
     </style>
 </head>
 <body class="bg-white text-brand-appleText font-apple overflow-x-hidden">
@@ -88,7 +91,6 @@
                 <a href="#dashboard" class="nav-link hover:text-black transition">儀表板</a>
                 <a href="#services" class="nav-link hover:text-black transition">運動選項</a>
                 <a href="#compare" class="nav-link hover:text-black transition">比較方案</a>
-                <a href="#testimonials" class="nav-link hover:text-black transition">客戶服務</a>
                 <a href="#ai-consultant" class="nav-link hover:text-brand-appleBlue transition flex items-center gap-1">AI 顧問 ✨</a>
                 <a href="admin.html" target="_blank" class="text-gray-400 hover:text-black transition flex items-center gap-1 ml-4" title="管理員登入">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -113,7 +115,6 @@
         <a href="#dashboard" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">健康儀表板</a>
         <a href="#services" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">運動選項</a>
         <a href="#compare" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">比較方案</a>
-        <a href="#testimonials" class="mobile-nav-link block py-3 text-lg font-medium text-gray-800 border-b border-gray-50">客戶服務</a>
         <a href="#ai-consultant" class="mobile-nav-link block py-3 text-lg font-bold text-brand-appleBlue">體驗 AI 顧問 ✨</a>
     </div>
 
@@ -322,6 +323,28 @@
                                 <td class="p-4 md:p-6 text-gray-900 font-medium border-l border-gray-100">標準菜單規劃</td>
                                 <td class="p-4 md:p-6 text-[#0071e3] font-bold border-l border-gray-100">三餐即時監控與客製</td>
                             </tr>
+                            <!-- 新增：訂閱按鍵列 -->
+                            <tr class="bg-white">
+                                <td class="p-4 md:p-6 text-left font-semibold text-gray-900"></td>
+                                <td class="p-4 md:p-6 border-l border-gray-100">
+                                    <button onclick="const c=document.getElementById('chat-widget-panel'); if(c.classList.contains('hidden')) document.getElementById('chat-toggle-btn').click(); document.getElementById('chat-input').value='我想了解【基礎團體】方案，請問如何開始？'; document.getElementById('chat-input').focus();" 
+                                            class="w-full bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-semibold py-3 rounded-full transition-colors text-[15px] shadow-sm">
+                                        訂閱基礎
+                                    </button>
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-gray-100">
+                                    <button onclick="const c=document.getElementById('chat-widget-panel'); if(c.classList.contains('hidden')) document.getElementById('chat-toggle-btn').click(); document.getElementById('chat-input').value='我想了解【進階個人】方案，請問如何開始？'; document.getElementById('chat-input').focus();" 
+                                            class="w-full bg-[#1d1d1f] hover:bg-black text-white font-semibold py-3 rounded-full transition-colors text-[15px] shadow-sm">
+                                        訂閱進階
+                                    </button>
+                                </td>
+                                <td class="p-4 md:p-6 border-l border-gray-100">
+                                    <button onclick="const c=document.getElementById('chat-widget-panel'); if(c.classList.contains('hidden')) document.getElementById('chat-toggle-btn').click(); document.getElementById('chat-input').value='我想了解【尊榮核心】方案，請問如何開始？'; document.getElementById('chat-input').focus();" 
+                                            class="w-full bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold py-3 rounded-full transition-colors text-[15px] shadow-sm flex justify-center items-center gap-1">
+                                        訂閱尊榮 ✨
+                                    </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -339,7 +362,8 @@
 
                 <div class="bg-brand-appleGray rounded-[2rem] shadow-sm p-6 md:p-12 border border-gray-200">
                     <form id="ai-form" class="space-y-6 md:space-y-8">
-                        <!-- 新增：API Key 輸入區塊 -->
+                        
+                        <!-- API Key 輸入區塊 -->
                         <div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100 mb-6">
                             <label class="block text-sm font-semibold text-blue-900 mb-2 flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
@@ -388,6 +412,7 @@
                             </div>
                         </div>
                         <div class="pt-4 flex justify-center">
+                            <!-- 加入 UI 鎖定防護 -->
                             <button type="submit" id="ai-submit-btn" class="w-full md:w-auto bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold rounded-full px-8 py-3.5 transition-colors shadow-sm flex justify-center items-center gap-2">
                                 ✨ 產生專屬計畫
                             </button>
@@ -409,7 +434,7 @@
 
         <!-- 客戶評價 -->
         <section id="testimonials" class="page-section hidden py-24 bg-brand-appleGray overflow-hidden">
-            <div class="text-center mb-12"><h2 class="text-4xl font-semibold tracking-tighter">客戶服務與真實回饋。</h2></div>
+            <div class="text-center mb-12"><h2 class="text-4xl font-semibold tracking-tighter">真實故事。</h2></div>
             <div class="relative w-full py-8">
                 <div class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-brand-appleGray to-transparent z-10"></div>
                 <div class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-brand-appleGray to-transparent z-10"></div>
@@ -571,9 +596,8 @@
             const text = input.value.trim();
             if (!text) return;
             
-            input.value = ''; // 立即清空輸入框
+            input.value = ''; 
 
-            // 判斷是否成功連接到 Firebase 後端
             if(currentUser && db) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'chat'), {
@@ -583,14 +607,11 @@
                     console.error("發送失敗", err);
                 }
             } else {
-                // 若無 Firebase 狀態，啟動「展示模擬模式」
                 const chatBox = document.getElementById('chat-messages');
                 if (chatBox) {
-                    // 顯示用戶訊息
                     chatBox.innerHTML += `<div class="self-end bg-[#028090] text-white rounded-xl rounded-tr-sm px-3 py-2 max-w-[80%] break-words">${text}</div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
                     
-                    // 1秒後模擬客服回覆
                     setTimeout(() => {
                         chatBox.innerHTML += `<div class="self-start bg-gray-100 text-gray-800 rounded-xl rounded-tl-sm px-3 py-2 max-w-[80%] text-left break-words">
                             您好！(展示模式自動回覆)<br>我們已收到您的訊息：「${text}」，此為前端模擬畫面。
@@ -610,11 +631,9 @@
         }
 
         // ==========================
-        // Gemini AI (包含自訂 API Key 與展示模式防呆)
+        // Gemini AI (自動重試 + 防止狂點機制)
         // ==========================
-        
         async function fetchGeminiWithRetry(prompt, customApiKey, retries = 5) {
-            // Demo 模式判斷：如果沒有輸入 apiKey，自動使用展示效果
             if (!customApiKey || customApiKey.trim() === "") {
                 console.log("偵測到無 API Key，啟動展示模式 (Demo Mode)");
                 await new Promise(resolve => setTimeout(resolve, 2000));
@@ -630,13 +649,14 @@
                 `;
             }
 
+            // 指數退避時間設定：遇到錯誤時，會分別等待 1秒、2秒、4秒...後自動重試
             const delays = [1000, 2000, 4000, 8000, 16000];
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${customApiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { 
-                    parts: [{ text: "你是一位 VITA CORE 的頂級健康與健身專屬顧問。請用專業、充滿鼓勵的語氣，以繁體中文回答。請直接輸出 HTML 格式（包含 <h3>, <p>, <ul>, <li>, <b> 等），不需要 Markdown 標記。" }] 
+                    parts: [{ text: "你是一位 VITA CORE 的頂級健康與健身專屬顧問。請用專業、充滿鼓勵的語氣，以繁體中文回答。請直接輸出 HTML 格式（包含 <h3>, <p>, <ul>, <li>, <b> 等），不需要 Markdown 標記，也不要輸出 ```html 這類程式碼區塊標記。" }] 
                 }
             };
 
@@ -653,9 +673,10 @@
                     const result = await response.json();
                     return result.candidates?.[0]?.content?.parts?.[0]?.text || "<p>產生內容為空。</p>";
                 } catch (error) {
-                    if (i === retries - 1) throw error; 
-                    console.warn(`API 繁忙，重試中... (${i+1}/${retries})`);
-                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                    if (i === retries - 1) throw error; // 最後一次依然失敗則丟出錯誤
+                    // 將原本的「API 繁忙」替換為「重新連線中」
+                    console.warn(`重新連線中，${delays[i]/1000} 秒後重試... (${i+1}/${retries})`);
+                    await new Promise(resolve => setTimeout(resolve, delays[i])); // 等待後重試
                 }
             }
         }
@@ -663,7 +684,6 @@
         document.getElementById('ai-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // 讀取並儲存 API Key
             const apiKeyInput = document.getElementById('api-key-input').value.trim();
             if (apiKeyInput) {
                 localStorage.setItem('vita_api_key', apiKeyInput);
@@ -676,26 +696,34 @@
             const resContainer = document.getElementById('ai-result-container');
             const resDiv = document.getElementById('ai-result');
             
+            // ⭐️ UI 鎖定防呆：點擊後立刻禁用按鈕，防止連續點擊觸發 429 錯誤
             btn.disabled = true; 
+            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> 分析中...`;
+            
             loading.classList.remove('hidden'); 
             resContainer.classList.add('hidden');
             
             const prompt = `為用戶生成專屬 VITA CORE 計畫。目標:${document.getElementById('user-goal').value}, 經驗:${document.getElementById('user-level').value}, 頻率:${document.getElementById('user-days').value}, 時長:${document.getElementById('user-duration').value}, 飲食:${document.getElementById('user-diet').value}, 強化:${document.getElementById('user-focus').value}。`;
             
             try {
+                // 呼叫帶有自動重試機制的函數
                 const aiHTML = await fetchGeminiWithRetry(prompt, apiKeyInput);
                 resDiv.innerHTML = aiHTML;
                 window.addProgress('mind', 10); 
             } catch(err) { 
+                // 經過 5 次重試仍然失敗，顯示優雅的連線逾時錯誤訊息
                 resDiv.innerHTML = `
                     <div class="bg-red-50 text-red-600 p-6 rounded-2xl text-center border border-red-100">
-                        <h4 class="font-bold text-lg mb-1">系統目前較為繁忙</h4>
-                        <p class="text-sm">請稍後幾秒鐘再重新點擊產生。</p>
+                        <svg class="w-8 h-8 mx-auto mb-2 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <h4 class="font-bold text-lg mb-1">連線逾時</h4>
+                        <p class="text-sm">請稍候幾秒鐘再重新點擊產生。</p>
                     </div>`; 
             }
             
+            // 解除 UI 鎖定
             loading.classList.add('hidden'); 
             btn.disabled = false; 
+            btn.innerHTML = `✨ 產生專屬計畫`;
             resContainer.classList.remove('hidden');
             resContainer.scrollIntoView({ behavior: 'smooth' });
         });
@@ -704,7 +732,11 @@
         // UI 互動 & 導航路由
         // ==========================
         document.addEventListener('DOMContentLoaded', () => {
-            // 手機版漢堡選單邏輯
+            const savedApiKey = localStorage.getItem('vita_api_key');
+            if (savedApiKey && document.getElementById('api-key-input')) {
+                document.getElementById('api-key-input').value = savedApiKey;
+            }
+
             const menuToggleBtn = document.getElementById('menu-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
             
@@ -713,7 +745,6 @@
                 mobileMenu.classList.toggle('flex');
             });
 
-            // 點擊手機版選單連結後，自動收起選單
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.add('hidden');
@@ -721,12 +752,10 @@
                 });
             });
             
-            // 客服視窗邏輯
             const chatPanel = document.getElementById('chat-widget-panel');
             document.getElementById('chat-toggle-btn')?.addEventListener('click', () => { chatPanel.classList.toggle('hidden'); chatPanel.classList.toggle('flex'); });
             document.getElementById('close-chat-btn')?.addEventListener('click', () => { chatPanel.classList.add('hidden'); chatPanel.classList.remove('flex'); });
 
-            // 頁面切換邏輯 (SPA 模擬)
             function handleRoute() {
                 const hash = window.location.hash || '#hero';
                 document.querySelectorAll('.page-section').forEach(page => {
@@ -742,12 +771,6 @@
             window.addEventListener('hashchange', handleRoute);
             handleRoute();
             updateRingsUI(ringState);
-            
-            // 初始化時，讀取先前的 API Key
-            const savedApiKey = localStorage.getItem('vita_api_key');
-            if (savedApiKey && document.getElementById('api-key-input')) {
-                document.getElementById('api-key-input').value = savedApiKey;
-            }
         });
     </script>
 </body>
